@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
 part 'model.g.dart';
 
-@HiveType(typeId: 0) // Unique typeId for your model
+@HiveType(typeId: 0) // Unique typeId for your model User Model
 class Profile {
   @HiveField(0)
   final String name;
@@ -32,4 +32,17 @@ class Profile {
     required this.photoPath,
     required this.city,
   });
+}
+
+@HiveType(typeId: 1)
+class Medicine extends HiveObject {
+  @HiveField(0)
+  String name;
+
+  @HiveField(1)
+  int count;
+
+  @HiveField(2)
+  List<String> times;
+  Medicine({required this.name, required this.count,required this.times});
 }
