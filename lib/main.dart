@@ -8,9 +8,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(ProfileAdapter());
-  Hive.registerAdapter(MedicineAdapter());
+  
   await Hive.openBox<Profile>('ProfileBox');
-  await Hive.openBox<Medicine>('medicineBox');//open to store medicine
+  
+  Hive.registerAdapter(MedicineDataAdapter()); // Register the adapter
+  await Hive.openBox<MedicineData>('medicineDataNewBox');
   runApp(MyApp());
 }
 

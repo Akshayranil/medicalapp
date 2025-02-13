@@ -34,8 +34,12 @@ class Profile {
   });
 }
 
-@HiveType(typeId: 1)
-class Medicine extends HiveObject {
+
+
+
+
+@HiveType(typeId: 2) // Use a new typeId if needed
+class MedicineData {
   @HiveField(0)
   String name;
 
@@ -43,6 +47,19 @@ class Medicine extends HiveObject {
   int count;
 
   @HiveField(2)
-  List<String> times;
-  Medicine({required this.name, required this.count,required this.times});
+  bool morning;
+
+  @HiveField(3)
+  bool afternoon;
+
+  @HiveField(4)
+  bool night;
+
+  MedicineData({
+    required this.name,
+    required this.count,
+    required this.morning,
+    required this.afternoon,
+    required this.night,
+  });
 }

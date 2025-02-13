@@ -58,33 +58,39 @@ class ProfileAdapter extends TypeAdapter<Profile> {
           typeId == other.typeId;
 }
 
-class MedicineAdapter extends TypeAdapter<Medicine> {
+class MedicineDataAdapter extends TypeAdapter<MedicineData> {
   @override
-  final int typeId = 1;
+  final int typeId = 2;
 
   @override
-  Medicine read(BinaryReader reader) {
+  MedicineData read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Medicine(
+    return MedicineData(
       name: fields[0] as String,
       count: fields[1] as int,
-      times: (fields[2] as List).cast<String>(),
+      morning: fields[2] as bool,
+      afternoon: fields[3] as bool,
+      night: fields[4] as bool,
     );
   }
 
   @override
-  void write(BinaryWriter writer, Medicine obj) {
+  void write(BinaryWriter writer, MedicineData obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
       ..write(obj.count)
       ..writeByte(2)
-      ..write(obj.times);
+      ..write(obj.morning)
+      ..writeByte(3)
+      ..write(obj.afternoon)
+      ..writeByte(4)
+      ..write(obj.night);
   }
 
   @override
@@ -93,7 +99,7 @@ class MedicineAdapter extends TypeAdapter<Medicine> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is MedicineAdapter &&
+      other is MedicineDataAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

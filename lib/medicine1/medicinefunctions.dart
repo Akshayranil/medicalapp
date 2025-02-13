@@ -3,54 +3,59 @@ import 'package:hive/hive.dart';
 import 'package:week7/profileModel/model.dart';
 
 
-void showAddMedicineDialog(BuildContext context, Box<Medicine> medicineBox) {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController countController = TextEditingController();
-  List<String> selectedTimes = [];
+void MedicineDialogue(BuildContext context) {
+  TextEditingController medname = TextEditingController();
+  TextEditingController medvalue = TextEditingController();
+
+  bool morning = false;
+  bool afternoon = false;
+  bool night = false;
 
   showDialog(
-    context: context,
-    builder: (context) {
-      return StatefulBuilder(
-        builder: (context, setState) {
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(builder: (context, setState) {
           return AlertDialog(
-            title: Text("Add Medicine"),
+            title: Text('Enter Medicine details'),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextField(
-                  controller: nameController,
-                  decoration: InputDecoration(labelText: "Medicine Name"),
+                  controller: medname,
+                  decoration: InputDecoration(labelText: 'Medicine name'),
                 ),
                 TextField(
-                  controller: countController,
-                  decoration: InputDecoration(labelText: "Medicine Count"),
+                  controller: medvalue,
+                  decoration: InputDecoration(labelText: 'Medicine Count'),
                   keyboardType: TextInputType.number,
                 ),
+                SizedBox(height: 15),
+                Text("Select Time to Take Medicine",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                 CheckboxListTile(
-                  title: Text("Morning"),
-                  value: selectedTimes.contains("Morning"),
+                  title: Text('Morning'),
+                  value: morning,
                   onChanged: (bool? value) {
                     setState(() {
-                      value! ? selectedTimes.add("Morning") : selectedTimes.remove("Morning");
+                      morning = value ?? false;
                     });
                   },
                 ),
                 CheckboxListTile(
                   title: Text("Afternoon"),
-                  value: selectedTimes.contains("Afternoon"),
+                  value: afternoon,
                   onChanged: (bool? value) {
                     setState(() {
-                      value! ? selectedTimes.add("Afternoon") : selectedTimes.remove("Afternoon");
+                      afternoon = value ?? false;
                     });
                   },
                 ),
                 CheckboxListTile(
                   title: Text("Night"),
-                  value: selectedTimes.contains("Night"),
+                  value: night,
                   onChanged: (bool? value) {
                     setState(() {
-                      value! ? selectedTimes.add("Night") : selectedTimes.remove("Night");
+                      night = value ?? false;
                     });
                   },
                 ),
@@ -59,29 +64,53 @@ void showAddMedicineDialog(BuildContext context, Box<Medicine> medicineBox) {
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: Text("Cancel"),
+                child: Text('Cancel'),
               ),
               ElevatedButton(
                 onPressed: () {
-                  String name = nameController.text.trim();
-                  int? count = int.tryParse(countController.text.trim());
+                  if (medname.text.isNotEmpty && medvalue.text.isNotEmpty) {
+                    var newMedicine = MedicineData(
+                      name: medname.text,
+                      count: int.parse(medvalue.text),
+                      morning: morning,
+                      afternoon: afternoon,
+                      night: night,
+                    );
 
-                  if (name.isNotEmpty && count != null && selectedTimes.isNotEmpty) {
-                    medicineBox.add(Medicine(name: name, count: count, times: selectedTimes));
+                    var box = Hive.box<MedicineData>('medicineDataNewBox');
+                    box.add(newMedicine); // Save to NEW Hive database
+
+                    print("Medicine Added: ${newMedicine.name}, Count: ${newMedicine.count}");
+
                     Navigator.pop(context);
                   }
                 },
-                child: Text("Add"),
-              ),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                child: Text('Add'),
+              )
             ],
           );
-        },
-      );
-    },
-  );
+        });
+      });
 }
 
-void showDeleteMedicineDialog(BuildContext context, Box<Medicine> medicineBox, int index) {
+void updateMedicine(Box<MedicineData> newMedicine, int index, int newCount) {
+  MedicineData? newMedical = newMedicine.getAt(index);
+  if (newMedical != null) {
+    newMedicine.putAt(
+      index,
+      MedicineData(
+        name: newMedical.name, 
+        count: newMedical.count,
+         morning: newMedical.morning, 
+         afternoon: newMedical.afternoon,
+          night:newMedical.night)
+    );
+  }
+}
+
+
+void showDeleteMedicine(BuildContext context, Box<MedicineData> newMedicine, int index) {
   showDialog(
     context: context,
     builder: (context) {
@@ -95,7 +124,7 @@ void showDeleteMedicineDialog(BuildContext context, Box<Medicine> medicineBox, i
           ),
           ElevatedButton(
             onPressed: () {
-              medicineBox.deleteAt(index);
+              newMedicine.deleteAt(index);
               Navigator.pop(context); // Close alert
             },
             child: Text("Delete"),
@@ -107,26 +136,10 @@ void showDeleteMedicineDialog(BuildContext context, Box<Medicine> medicineBox, i
   );
 }
 
-void updateMedicineCount(Box<Medicine> medicineBox, int index, int newCount) {
-  Medicine? medicine = medicineBox.getAt(index);
-  if (medicine != null) {
-    medicineBox.putAt(
-      index,
-      Medicine(
-        name: medicine.name,
-        count: newCount,
-        times: medicine.times, // Preserve times
-      ),
-    );
-  }
-}
-
-
-
-void showEditMedicineDialog(BuildContext context, Box<Medicine> medicineBox, int index) {
-  Medicine medicine = medicineBox.getAt(index)!;
-  TextEditingController nameController = TextEditingController(text: medicine.name);
-  TextEditingController countController = TextEditingController(text: medicine.count.toString());
+void showEditMedicine(BuildContext context, Box<MedicineData> newMedicine, int index) {
+  MedicineData medicinedata = newMedicine.getAt(index)!;
+  TextEditingController nameController = TextEditingController(text: medicinedata.name);
+  TextEditingController countController = TextEditingController(text: medicinedata.count.toString());
 
   showDialog(
     context: context,
@@ -155,16 +168,12 @@ void showEditMedicineDialog(BuildContext context, Box<Medicine> medicineBox, int
           ElevatedButton(
             onPressed: () {
               String newName = nameController.text.trim();
-              int newCount = int.tryParse(countController.text.trim()) ?? medicine.count;
+              int newCount = int.tryParse(countController.text.trim()) ?? medicinedata.count;
 
               if (newName.isNotEmpty) {
-                medicineBox.putAt(
+                newMedicine.putAt(
                   index,
-                  Medicine(
-                    name: newName,
-                    count: newCount,
-                    times: medicine.times,
-                  ),
+                 MedicineData(name: newName, count: newCount, morning:medicinedata.morning, afternoon: medicinedata.afternoon, night: medicinedata.night)
                 );
               }
 
@@ -178,3 +187,6 @@ void showEditMedicineDialog(BuildContext context, Box<Medicine> medicineBox, int
     },
   );
 }
+
+
+

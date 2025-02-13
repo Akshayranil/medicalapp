@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:week7/MedicineScreen/mymedicine.dart';
+
 import 'package:week7/ScreenProfile/screenProfile.dart';
 import 'package:week7/bmiscreen/bmiscreen.dart';
+import 'package:week7/medicine1/medicine1.dart';
 import 'package:week7/profileModel/model.dart';
 
 class ScreenHome extends StatefulWidget {
@@ -18,8 +19,8 @@ class _ScreenHomeState extends State<ScreenHome> {
 
   // List of data for each card
   final List<Map<String, dynamic>> cardData = [
-    {'image': 'assets/images/glucose.jpg', 'title': 'Blood Glucose'},
-    {'image': 'assets/images/med2.jpg', 'title': 'My Medicine','screen':MyMedicine()},
+    {'image': 'assets/images/glucose.jpg', 'title': 'Blood Glucose',},
+    {'image': 'assets/images/med2.jpg', 'title': 'My Medicine','screen':Medicine1()},
     {'image': 'assets/images/vital.webp', 'title': 'My Vitals'},
     {'image': 'assets/images/BMI.webp', 'title': 'BMI Calculator','screen':BMICalculator()},
   ];
