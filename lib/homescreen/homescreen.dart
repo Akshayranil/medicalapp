@@ -4,6 +4,7 @@ import 'package:hive/hive.dart';
 import 'package:week7/ScreenProfile/screenProfile.dart';
 import 'package:week7/bmiscreen/bmiscreen.dart';
 import 'package:week7/medicine1/medicine1.dart';
+import 'package:week7/medicine1/medicinefunctions.dart';
 import 'package:week7/profileModel/model.dart';
 
 class ScreenHome extends StatefulWidget {
@@ -15,6 +16,11 @@ class ScreenHome extends StatefulWidget {
 }
 
 class _ScreenHomeState extends State<ScreenHome> {
+  @override
+  void initState() {
+    super.initState();
+    _checkAndShowWarning();
+  }
   int _selectedIndex = 0;
 
   // List of data for each card
@@ -172,4 +178,51 @@ class _ScreenHomeState extends State<ScreenHome> {
       ),
     );
   }
+//--------------------------------------------------------------------
+void _checkAndShowWarning() async {
+    var settingsBox = Hive.box('settingsBox');
+    bool showWarning = settingsBox.get('lowMedicineWarning', defaultValue: false);
+
+    if (showWarning) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _showLowMedicinePopup();
+      });
+
+      // Reset flag so popup doesn't show again unnecessarily
+      settingsBox.put('lowMedicineWarning', false);
+    }
+  }
+
+  void _showLowMedicinePopup() {
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      backgroundColor: Colors.amber,
+      title: Center(child: Text("Warning",style: TextStyle(color: Colors.red,fontWeight: FontWeight.w800),)), // Centering title
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            "One of your medicines has a count less than 2.\nPlease restock soon.",
+            textAlign: TextAlign.center,style: TextStyle(color: Colors.red,fontWeight: FontWeight.w500), // Centering content
+          ),
+        ],
+      ),
+      actionsAlignment: MainAxisAlignment.center, // Centering button
+      actions: [
+        TextButton(
+          style: TextButton.styleFrom(
+            backgroundColor: Colors.red, // Red background
+            foregroundColor: Colors.white, // White text
+          ),
+          onPressed: () => Navigator.pop(context),
+          child: Text("OK"),
+        ),
+      ],
+    ),
+  );
 }
+
+}
+
+

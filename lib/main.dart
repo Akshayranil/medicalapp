@@ -13,6 +13,11 @@ void main() async {
   
   Hive.registerAdapter(MedicineDataAdapter()); // Register the adapter
   await Hive.openBox<MedicineData>('medicineDataNewBox');
+  await Hive.openBox<List<int>>('takenMedicinesBox');
+  var settingsBox = await Hive.openBox('settingsBox'); // Box to store warning flag
+
+  // Check for low medicine count
+  checkLowMedicineCount(settingsBox);
   runApp(MyApp());
 }
 
@@ -27,4 +32,19 @@ class MyApp extends StatelessWidget {
       home: SplashScreen(),
     );
   }
+}
+
+void checkLowMedicineCount(Box settingsBox) {
+  var medicineBox = Hive.box<MedicineData>('medicineDataNewBox');
+  bool lowMedicineFound = false;
+
+  for (var medicine in medicineBox.values) {
+    if (medicine.count < 2) {
+      lowMedicineFound = true;
+      break;
+    }
+  }
+
+  // Store flag in Hive
+  settingsBox.put('lowMedicineWarning', lowMedicineFound);
 }

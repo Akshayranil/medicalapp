@@ -22,6 +22,7 @@ class MedicineCount extends StatelessWidget {
               itemCount: box.length,
               itemBuilder: (context, index) {
                 MedicineData meddata = box.getAt(index)!;
+                final textColor = meddata.count < 2 ? Colors.red : Colors.black;
                 return Card(
                   margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   child: Padding(
@@ -44,7 +45,7 @@ class MedicineCount extends StatelessWidget {
                                 icon: Icon(Icons.remove)),
                             Text(
                               "${meddata.count}",
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: textColor),
                             ),
                             IconButton(
                               icon: Icon(Icons.add, color: Colors.green),
