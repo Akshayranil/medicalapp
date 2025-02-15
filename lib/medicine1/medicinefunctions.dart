@@ -23,6 +23,7 @@ void MedicineDialogue(BuildContext context) {
                 TextField(
                   controller: medname,
                   decoration: InputDecoration(labelText: 'Medicine name'),
+                  keyboardType: TextInputType.text,
                 ),
                 TextField(
                   controller: medvalue,
