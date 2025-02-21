@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:week7/homescreen/homescreen.dart';
-import 'package:week7/profileModel/model.dart';
+import 'package:week7/homescreen/home_screen.dart';
+import 'package:week7/profilemodel/model.dart';
+import 'package:week7/profilescreen/profile_screen.dart';
 
 class MyProfile extends StatefulWidget {
   const MyProfile({super.key});
@@ -363,9 +364,7 @@ class _MyProfileState extends State<MyProfile> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ScreenHome(
-                                    userName: profile.name,
-                                  )),
+                              builder: (context) =>ScreenProfile(bloodGroup: profile.bloodGroup, city: profile.city,name: profile.name,)),
                         );
                       }
                     },

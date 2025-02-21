@@ -1,21 +1,25 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:week7/Alldetails/details.dart';
-import 'package:week7/helpandsupport/helpsupport.dart';
-import 'package:week7/homescreen/homescreen.dart';
-import 'package:week7/privacyPolicy/privacy.dart';
-import 'package:week7/profileModel/model.dart';
-import 'package:week7/profilepage/profile.dart';
-import 'package:week7/settings/settings.dart';
+import 'package:week7/appointmentscreen/appointment_screen.dart';
+import 'package:week7/homescreen/home_screen.dart';
+import 'package:week7/profilemodel/model.dart';
+import 'package:week7/profilepage/profile_page.dart';
+import 'package:week7/profilescreen/editprofile/edit_profile.dart';
+import 'package:week7/profilescreen/helpandsupport/help_support.dart';
+import 'package:week7/profilescreen/personaldetails/personal_details.dart';
+import 'package:week7/profilescreen/privacypolicy/privacy_policy.dart';
+import 'package:week7/recordscreen/record_screen.dart';
 
 class ScreenProfile extends StatefulWidget {
   const ScreenProfile(
-      {super.key, required this.bloodGroup, required this.city});
+      {super.key,
+      required this.bloodGroup,
+      required this.city,
+      required this.name});
   final String? bloodGroup;
   final String? city;
+  final String? name;
   @override
   State<ScreenProfile> createState() => _ScreenProfileState();
 }
@@ -32,7 +36,7 @@ class _ScreenProfileState extends State<ScreenProfile> {
   void _loadProfileImage() {
     var box = Hive.box<Profile>('profileBox');
     Profile? profile = box.get('userProfile');
-    if (profile != null && profile.photoPath != null) {
+    if (profile != null) {
       setState(() {
         _profileImage = File(profile.photoPath); // Convert stored path to File
       });
@@ -59,6 +63,15 @@ class _ScreenProfileState extends State<ScreenProfile> {
         ),
       );
     }
+    if (index == 2) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => MyAppointment()));
+    }
+
+    if (index == 1) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => MyRecords()));
+    }
   }
 
   @override
@@ -76,7 +89,7 @@ class _ScreenProfileState extends State<ScreenProfile> {
                     width:
                         double.infinity, // Forces the Stack to take full width
                     child: Stack(
-                      alignment: Alignment.center, 
+                      alignment: Alignment.center,
                       children: [
                         Positioned(
                           top: 100,
@@ -143,7 +156,19 @@ class _ScreenProfileState extends State<ScreenProfile> {
                           ),
                         ),
                         Positioned(
-                          bottom: 120,
+                          top: 260, // Position below profile picture
+                          child: Text(
+                            widget.name ??
+                                "Guest", // Show name or fallback to 'Guest'
+                            style: TextStyle(
+                              fontSize: 29,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black87,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 80,
                           child: Row(
                             children: [
                               Column(
@@ -207,49 +232,34 @@ class _ScreenProfileState extends State<ScreenProfile> {
                   mainAxisAlignment:
                       MainAxisAlignment.spaceEvenly, // Space the rows equally
                   children: [
-                InkWell(
-  onTap: () {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Edit Profile"),
-          content: Text("Are you sure you want to edit your profile?"),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context); // Close the dialog
-              },
-              child: Text("Cancel"),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context); // Close the dialog
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MyProfile()), // Navigate to EditProfile screen
-                );
-              },
-              child: Text("Edit"),
-            ),
-          ],
-        );
-      },
-    );
-  },
-  child: Row(
-    mainAxisAlignment: MainAxisAlignment.start, // Align text to the left
-    children: [
-      Icon(Icons.edit_square, color: Colors.black),
-      SizedBox(width: 16),
-      Text(
-        'Edit Profile',
-        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-      ),
-    ],
-  ),
-),
+                    InkWell(
+                      onTap: () {
+                        var box = Hive.box<Profile>('profileBox');
+                        var profile = box
+                            .get('userProfile'); // Retrieve the stored profile
 
+                        if (profile != null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    EditProfileScreen(profile: profile)),
+                          );
+                        }
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(Icons.edit_square, color: Colors.black),
+                          SizedBox(width: 16),
+                          Text(
+                            'Edit Profile',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
 
                     Divider(
                       color: Colors.grey,

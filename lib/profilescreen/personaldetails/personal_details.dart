@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 
-import 'package:week7/profileModel/model.dart';
+
 
 class MyDetails extends StatefulWidget {
   final String? name;
@@ -31,7 +31,7 @@ class MyDetails extends StatefulWidget {
 class _MyDetailsState extends State<MyDetails> {
   @override
   Widget build(BuildContext context) {
-    print("photopath :${widget.photoPath}");
+    // print("photopath :${widget.photoPath}");
     // List to store user details dynamically
     List<Map<String, String?>> userDetails = [
       {'label': 'Name', 'value': widget.name},

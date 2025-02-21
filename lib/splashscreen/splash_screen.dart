@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:week7/SlideScreen/slidescreen.dart';
-import 'package:week7/homescreen/homescreen.dart';
-import 'package:week7/profileModel/model.dart';
+
+import 'package:week7/homescreen/home_screen.dart';
+import 'package:week7/profilemodel/model.dart';
+import 'package:week7/profilescreen/profile_screen.dart';
+import 'package:week7/slidescreen/slide_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -34,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => ScreenHome(userName: profile.name),
+            builder: (context) => ScreenProfile(bloodGroup: profile.bloodGroup, city: profile.city,name: profile.name,),
           ),
         );
       }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:week7/loginpage/loginpage.dart';
-import 'package:week7/profilepage/profile.dart';
+import 'package:week7/profilepage/profile_page.dart';
+
+
 
 class SlideScreen1 extends StatelessWidget {
   @override

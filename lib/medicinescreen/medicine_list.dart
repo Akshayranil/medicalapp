@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:week7/medicine1/medicinefunctions.dart';
-import 'package:week7/profileModel/model.dart';
+import 'package:week7/medicinescreen/medicine_functions.dart';
+import 'package:week7/profilemodel/model.dart';
 
 class MedicineList extends StatefulWidget {
   @override

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:week7/SlideScreen/slidescreen1.dart';
+import 'package:week7/slidescreen/slide_pages.dart';
+
 
 
 class SlideViewScreen extends StatefulWidget {

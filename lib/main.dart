@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:week7/profileModel/model.dart';
-import 'package:week7/screensplash/screensplash.dart';
+import 'package:week7/profilemodel/model.dart';
+import 'package:week7/splashscreen/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(ProfileAdapter());
-  
+
   await Hive.openBox<Profile>('ProfileBox');
-  
+
   Hive.registerAdapter(MedicineDataAdapter()); // Register the adapter
   await Hive.openBox<MedicineData>('medicineDataNewBox');
   await Hive.openBox<List<int>>('takenMedicinesBox');
-  var settingsBox = await Hive.openBox('settingsBox'); // Box to store warning flag
+  var settingsBox =
+      await Hive.openBox('settingsBox'); // Box to store warning flag
 
   // Check for low medicine count
   checkLowMedicineCount(settingsBox);
+  Hive.registerAdapter(BloodGlucoseRecordAdapter());
+  Hive.registerAdapter(VitalsModelAdapter());
+  await Hive.openBox<VitalsModel>('vitalsBox');
+  Hive.registerAdapter(BMIResultAdapter());
+  await Hive.openBox<BMIResult>('bmiBox');
   runApp(MyApp());
 }
 

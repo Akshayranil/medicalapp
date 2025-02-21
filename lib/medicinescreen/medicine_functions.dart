@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:week7/profileModel/model.dart';
+import 'package:week7/profilemodel/model.dart';
 
 
 void MedicineDialogue(BuildContext context) {

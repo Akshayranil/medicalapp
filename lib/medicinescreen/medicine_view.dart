@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:week7/medicine1/medcount.dart';
-import 'package:week7/medicine1/medicinefunctions.dart';
-import 'package:week7/medicine1/medlist.dart';
-import 'package:week7/profileModel/model.dart';
+import 'package:week7/medicinescreen/medicine_count.dart';
+import 'package:week7/medicinescreen/medicine_functions.dart';
+import 'package:week7/medicinescreen/medicine_list.dart';
+import 'package:week7/profilemodel/model.dart';
 
-class Medicine1 extends StatefulWidget {
-  const Medicine1({super.key});
+class MedicineScreen extends StatefulWidget {
+  const MedicineScreen({super.key});
 
   @override
-  State<Medicine1> createState() => _Medicine1State();
+  State<MedicineScreen> createState() => _Medicine1State();
   
 }
 
-class _Medicine1State extends State<Medicine1> {
+class _Medicine1State extends State<MedicineScreen> {
   Box<MedicineData>?newMedicine;
   List<Map<String, dynamic>> medicine1 = [];
   @override

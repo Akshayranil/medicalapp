@@ -34,10 +34,6 @@ class Profile {
   });
 }
 
-
-
-
-
 @HiveType(typeId: 2) // Use a new typeId if needed
 class MedicineData {
   @HiveField(0)
@@ -62,4 +58,73 @@ class MedicineData {
     required this.afternoon,
     required this.night,
   });
+}
+
+@HiveType(typeId: 3)
+class BloodGlucoseRecord {
+  @HiveField(0)
+  final String date;
+
+  @HiveField(1)
+  final String time;
+
+  @HiveField(2)
+  final double glucoseLevel;
+
+  @HiveField(3)
+  final int foodIntakeStatus;
+
+  BloodGlucoseRecord({
+    required this.date,
+    required this.time,
+    required this.glucoseLevel,
+    required this.foodIntakeStatus,
+  });
+}
+
+@HiveType(typeId: 4)
+class VitalsModel {
+  @HiveField(0)
+  String vitaldate;
+  @HiveField(1)
+  String vitaltime;
+  @HiveField(2)
+  String bp;
+  @HiveField(3)
+  String pulse;
+  @HiveField(4)
+  String temperature;
+  @HiveField(5)
+  String spo2;
+  @HiveField(6)
+  String exercise;
+  @HiveField(7)
+  String weight;
+
+  VitalsModel(
+      {required this.vitaldate,
+      required this.vitaltime,
+      required this.bp,
+      required this.pulse,
+      required this.temperature,
+      required this.spo2,
+      required this.exercise,
+      required this.weight});
+}
+
+@HiveType(typeId: 5)
+class BMIResult {
+  @HiveField(0)
+  double bmi;
+  @HiveField(1)
+  double weight;
+  @HiveField(2)
+  double height;
+  @HiveField(3)
+  String bmidate;
+  BMIResult(
+      {required this.bmi,
+      required this.weight,
+      required this.height,
+      required this.bmidate});
 }
