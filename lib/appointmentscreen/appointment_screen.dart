@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:week7/appointmentscreen/add_appointment.dart';
+import 'package:week7/appointmentscreen/appointment_view.dart';
+import 'package:week7/appointmentscreen/view_prescription.dart';
 import 'package:week7/functions/general_functions.dart';
 
 class MyAppointment extends StatefulWidget {
@@ -27,9 +29,10 @@ int _selectedIndex = 2;
               Tab(text: 'View Prescription',),
             ]),
         ),
-        body: Center(
-          child: Text('No text is present now'),
-        ),
+        body: TabBarView(children: [
+          ViewAppointmentsScreen(),
+          StoreData()
+        ]),
         
         floatingActionButton: FloatingActionButton(
           onPressed: () {

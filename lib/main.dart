@@ -25,6 +25,8 @@ void main() async {
   await Hive.openBox<VitalsModel>('vitalsBox');
   Hive.registerAdapter(BMIResultAdapter());
   await Hive.openBox<BMIResult>('bmiBox');
+  Hive.registerAdapter(AppointmentDataAdapter());
+  await Hive.openBox('appointments');
   runApp(MyApp());
 }
 void appointmentReminder() {

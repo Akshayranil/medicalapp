@@ -244,3 +244,49 @@ class BMIResultAdapter extends TypeAdapter<BMIResult> {
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
+
+class AppointmentDataAdapter extends TypeAdapter<AppointmentData> {
+  @override
+  final int typeId = 6;
+
+  @override
+  AppointmentData read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return AppointmentData(
+      doctorname: fields[0] as String,
+      clinicname: fields[1] as String,
+      placename: fields[2] as String,
+      appointmentDateTime: fields[3] as DateTime,
+      remainderTime: fields[4] as int,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, AppointmentData obj) {
+    writer
+      ..writeByte(5)
+      ..writeByte(0)
+      ..write(obj.doctorname)
+      ..writeByte(1)
+      ..write(obj.clinicname)
+      ..writeByte(2)
+      ..write(obj.placename)
+      ..writeByte(3)
+      ..write(obj.appointmentDateTime)
+      ..writeByte(4)
+      ..write(obj.remainderTime);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is AppointmentDataAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
