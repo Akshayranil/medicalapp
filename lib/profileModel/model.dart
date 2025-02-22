@@ -128,3 +128,24 @@ class BMIResult {
       required this.height,
       required this.bmidate});
 }
+
+@HiveType(typeId: 6)
+class AppointmentData {
+  @HiveField(0)
+  String doctorname;
+  @HiveField(1)
+  String clinicname;
+  @HiveField(2)
+  String placename;
+  @HiveField(3)
+  DateTime appointmentDateTime;
+  @HiveField(4)
+  int remainderTime;
+  AppointmentData({
+     required this.doctorname,
+     required this.clinicname,
+     required this.placename,
+     required this.appointmentDateTime,
+     required this.remainderTime
+  });
+}

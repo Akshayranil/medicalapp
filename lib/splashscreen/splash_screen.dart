@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
-import 'package:week7/homescreen/home_screen.dart';
 import 'package:week7/profilemodel/model.dart';
 import 'package:week7/profilescreen/profile_screen.dart';
 import 'package:week7/slidescreen/slide_screen.dart';

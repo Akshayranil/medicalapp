@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:week7/homescreen/home_screen.dart';
 import 'package:week7/profilemodel/model.dart';
 import 'package:week7/profilescreen/profile_screen.dart';
 

@@ -11,7 +11,7 @@ class _AddAppointmentScreenState extends State<AddAppointmentScreen> {
   final placeController = TextEditingController();
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
-
+  
   // Function to format the selected date
   String getFormattedDate() {
     if (selectedDate == null) return "No Date Selected";

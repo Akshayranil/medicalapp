@@ -1,15 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:week7/appointmentscreen/appointment_screen.dart';
-import 'package:week7/homescreen/home_screen.dart';
+import 'package:week7/functions/general_functions.dart';
 import 'package:week7/profilemodel/model.dart';
-import 'package:week7/profilepage/profile_page.dart';
 import 'package:week7/profilescreen/editprofile/edit_profile.dart';
 import 'package:week7/profilescreen/helpandsupport/help_support.dart';
 import 'package:week7/profilescreen/personaldetails/personal_details.dart';
 import 'package:week7/profilescreen/privacypolicy/privacy_policy.dart';
-import 'package:week7/recordscreen/record_screen.dart';
 
 class ScreenProfile extends StatefulWidget {
   const ScreenProfile(
@@ -44,36 +41,7 @@ class _ScreenProfileState extends State<ScreenProfile> {
   }
 
   int _selectedIndex = 3;
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-    if (index == 0) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) {
-            // Retrieve the userName from Hive again (or from wherever it's stored)
-            var box = Hive.box<Profile>('profileBox');
-            String userName = box.get('userProfile')?.name ??
-                'Guest'; // Use 'Guest' if not available
-            return ScreenHome(
-                userName: userName); // Pass the userName to ScreenHome
-          },
-        ),
-      );
-    }
-    if (index == 2) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => MyAppointment()));
-    }
-
-    if (index == 1) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => MyRecords()));
-    }
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -325,31 +293,14 @@ class _ScreenProfileState extends State<ScreenProfile> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        backgroundColor: Colors.grey, // Set the background color of the bar
-        selectedItemColor: Colors.green, // Color for the selected icon
-        unselectedItemColor: Colors.grey, // Color for the unselected icons
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.insert_drive_file),
-            label: 'Records',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.event),
-            label: 'Appointment',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: 'Profile',
-          ),
-        ],
-      ),
+      bottomNavigationBar: ButtonNavigation(
+        currentIndex: _selectedIndex, 
+        onTap:(index) {
+              setState(() {
+                _selectedIndex = index;
+              });
+              NavigateScreen(context, index);
+            } ),
     );
   }
 }

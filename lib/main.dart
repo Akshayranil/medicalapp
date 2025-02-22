@@ -4,6 +4,7 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:week7/profilemodel/model.dart';
 import 'package:week7/splashscreen/splash_screen.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
@@ -25,6 +26,9 @@ void main() async {
   Hive.registerAdapter(BMIResultAdapter());
   await Hive.openBox<BMIResult>('bmiBox');
   runApp(MyApp());
+}
+void appointmentReminder() {
+  print("🔔 Reminder: You have an appointment!");
 }
 
 class MyApp extends StatelessWidget {

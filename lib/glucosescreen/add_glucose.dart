@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
-import 'package:week7/glucosescreen/glucose_trend.dart';
 import 'package:week7/profilemodel/model.dart';
 
 class BloodGlucoseScreen extends StatefulWidget {
@@ -99,7 +98,9 @@ class BloodGlucoseScreenState extends State<BloodGlucoseScreen> {
                     children: [
                       TextFormField(
                         controller: _glucoseController,
-                        decoration: InputDecoration(hintText: 'eg-110 mg/dL'),
+                        decoration: InputDecoration(hintText: 'eg-110 mg/dL',
+                        border: InputBorder.none
+                        ),
                         keyboardType: TextInputType.number,
                         validator: (value) {
                           if (value == null || value.isEmpty) {

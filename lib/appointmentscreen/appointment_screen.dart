@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:week7/appointmentscreen/add_appointment.dart';
+import 'package:week7/functions/general_functions.dart';
 
-class MyAppointment extends StatelessWidget {
-  const MyAppointment({super.key});
+class MyAppointment extends StatefulWidget {
+  
+   MyAppointment({super.key});
+
+  @override
+  State<MyAppointment> createState() => _MyAppointmentState();
+}
+
+class _MyAppointmentState extends State<MyAppointment> {
+int _selectedIndex = 2;
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +30,7 @@ class MyAppointment extends StatelessWidget {
         body: Center(
           child: Text('No text is present now'),
         ),
+        
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.push(context,
@@ -29,6 +39,13 @@ class MyAppointment extends StatelessWidget {
           backgroundColor: Colors.lightGreenAccent,
           child: Icon(Icons.add),
         ),
+        bottomNavigationBar: ButtonNavigation(currentIndex: _selectedIndex ,
+         onTap: (index) {
+              setState(() {
+                _selectedIndex = index;
+              });
+              NavigateScreen(context, index);
+            })
       ),
     );
   }
