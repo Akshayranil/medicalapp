@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:week7/appointmentscreen/appointment_view.dart';
+import 'package:week7/appointmentscreen/time_function.dart';
 import 'package:week7/profilemodel/model.dart';
+
+
 
 class AddAppointmentScreen extends StatefulWidget {
   @override
@@ -28,32 +31,38 @@ class _AddAppointmentScreenState extends State<AddAppointmentScreen> {
     return "${selectedTime!.hour.toString().padLeft(2, '0')}:${selectedTime!.minute.toString().padLeft(2, '0')}";
   }
 
-  void saveAppointment() {
-    if (doctorController.text.isNotEmpty &&
-        clinicController.text.isNotEmpty &&
-        placeController.text.isNotEmpty &&
-        selectedDate != null &&
-        selectedTime != null) {
-      DateTime appointmentDateTime = DateTime(
-          selectedDate!.year,
-          selectedDate!.month,
-          selectedDate!.day,
-          selectedTime!.hour,
-          selectedTime!.minute);
+  void saveAppointment() async {
+  if (doctorController.text.isNotEmpty &&
+      clinicController.text.isNotEmpty &&
+      placeController.text.isNotEmpty &&
+      selectedDate != null &&
+      selectedTime != null) {
+    DateTime appointmentDateTime = DateTime(
+      selectedDate!.year,
+      selectedDate!.month,
+      selectedDate!.day,
+      selectedTime!.hour,
+      selectedTime!.minute,
+    );
 
-      AppointmentData newAppointment = AppointmentData(
-          doctorname: doctorController.text,
-          clinicname: clinicController.text,
-          placename: placeController.text,
-          appointmentDateTime: appointmentDateTime,
-          remainderTime: reminderTime!);
+    AppointmentData newAppointment = AppointmentData(
+      doctorname: doctorController.text,
+      clinicname: clinicController.text,
+      placename: placeController.text,
+      appointmentDateTime: appointmentDateTime,
+      remainderTime: reminderTime,
+    );
 
-      var box = Hive.box('appointments');
-      box.add(newAppointment);
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) => ViewAppointmentsScreen()));
-    }
+    var box = Hive.box('appointments');
+    int id = await box.add(newAppointment);
+
+    // scheduleRealTimeAlarm(newAppointment, id); // Real-time alarm
+
+    Navigator.pop(context); // This will go back to the tab and trigger a refresh
+
   }
+}
+
 
   @override
   Widget build(BuildContext context) {

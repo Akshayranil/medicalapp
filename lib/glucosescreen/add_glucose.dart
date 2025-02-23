@@ -23,6 +23,7 @@ class BloodGlucoseScreenState extends State<BloodGlucoseScreen> {
     _dateController.text = DateFormat('yyyy-MM-dd').format(now);
     _timeController.text = DateFormat('HH:mm:ss').format(now);
   }
+  
 
   void _saveBloodGlucoseRecord() async {
     // Get the values from the controllers and radio buttons

@@ -9,14 +9,14 @@ import 'package:week7/profilescreen/personaldetails/personal_details.dart';
 import 'package:week7/profilescreen/privacypolicy/privacy_policy.dart';
 
 class ScreenProfile extends StatefulWidget {
-  const ScreenProfile(
+  ScreenProfile(
       {super.key,
       required this.bloodGroup,
       required this.city,
       required this.name});
-  final String? bloodGroup;
-  final String? city;
-  final String? name;
+  String? bloodGroup;
+  String? city;
+  String? name;
   @override
   State<ScreenProfile> createState() => _ScreenProfileState();
 }
@@ -41,7 +41,7 @@ class _ScreenProfileState extends State<ScreenProfile> {
   }
 
   int _selectedIndex = 3;
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -201,18 +201,26 @@ class _ScreenProfileState extends State<ScreenProfile> {
                       MainAxisAlignment.spaceEvenly, // Space the rows equally
                   children: [
                     InkWell(
-                      onTap: () {
+                      onTap: () async {
                         var box = Hive.box<Profile>('profileBox');
                         var profile = box
                             .get('userProfile'); // Retrieve the stored profile
 
                         if (profile != null) {
-                          Navigator.push(
+                          final updatedProfile = await Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
                                     EditProfileScreen(profile: profile)),
                           );
+                          if (updatedProfile != null) {
+                            setState(() {
+                              _loadProfileImage();
+                              widget.name = updatedProfile.name;
+                              widget.bloodGroup = updatedProfile.bloodGroup;
+                              widget.city = updatedProfile.city;
+                            });
+                          }
                         }
                       },
                       child: Row(
@@ -294,13 +302,13 @@ class _ScreenProfileState extends State<ScreenProfile> {
         ),
       ),
       bottomNavigationBar: ButtonNavigation(
-        currentIndex: _selectedIndex, 
-        onTap:(index) {
-              setState(() {
-                _selectedIndex = index;
-              });
-              NavigateScreen(context, index);
-            } ),
+          currentIndex: _selectedIndex,
+          onTap: (index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+            NavigateScreen(context, index);
+          }),
     );
   }
 }

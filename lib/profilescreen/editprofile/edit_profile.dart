@@ -63,7 +63,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       await box.put('userProfile', updatedProfile);
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Profile updated successfully!")),
+        SnackBar(content: Text("Profile updated successfully!"),
+        backgroundColor: Colors.green,),
       );
 
       Navigator.pop(context, updatedProfile);

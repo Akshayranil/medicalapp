@@ -140,12 +140,12 @@ class AppointmentData {
   @HiveField(3)
   DateTime appointmentDateTime;
   @HiveField(4)
-  int remainderTime;
+  int? remainderTime;
   AppointmentData({
      required this.doctorname,
      required this.clinicname,
      required this.placename,
      required this.appointmentDateTime,
-     required this.remainderTime
+      this.remainderTime,
   });
 }
