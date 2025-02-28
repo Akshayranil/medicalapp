@@ -8,6 +8,7 @@ import 'package:week7/profilescreen/helpandsupport/help_support.dart';
 import 'package:week7/profilescreen/personaldetails/personal_details.dart';
 import 'package:week7/profilescreen/privacypolicy/privacy_policy.dart';
 
+// ignore: must_be_immutable
 class ScreenProfile extends StatefulWidget {
   ScreenProfile(
       {super.key,

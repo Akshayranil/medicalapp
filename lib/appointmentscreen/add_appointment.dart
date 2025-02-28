@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:week7/appointmentscreen/appointment_functions.dart';
 import 'package:week7/appointmentscreen/appointment_view.dart';
 import 'package:week7/appointmentscreen/time_function.dart';
 import 'package:week7/profilemodel/model.dart';
-
-
 
 class AddAppointmentScreen extends StatefulWidget {
   @override
@@ -30,39 +29,6 @@ class _AddAppointmentScreenState extends State<AddAppointmentScreen> {
     if (selectedTime == null) return "No Time Selected";
     return "${selectedTime!.hour.toString().padLeft(2, '0')}:${selectedTime!.minute.toString().padLeft(2, '0')}";
   }
-
-  void saveAppointment() async {
-  if (doctorController.text.isNotEmpty &&
-      clinicController.text.isNotEmpty &&
-      placeController.text.isNotEmpty &&
-      selectedDate != null &&
-      selectedTime != null) {
-    DateTime appointmentDateTime = DateTime(
-      selectedDate!.year,
-      selectedDate!.month,
-      selectedDate!.day,
-      selectedTime!.hour,
-      selectedTime!.minute,
-    );
-
-    AppointmentData newAppointment = AppointmentData(
-      doctorname: doctorController.text,
-      clinicname: clinicController.text,
-      placename: placeController.text,
-      appointmentDateTime: appointmentDateTime,
-      remainderTime: reminderTime,
-    );
-
-    var box = Hive.box('appointments');
-    int id = await box.add(newAppointment);
-
-    // scheduleRealTimeAlarm(newAppointment, id); // Real-time alarm
-
-    Navigator.pop(context); // This will go back to the tab and trigger a refresh
-
-  }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -226,7 +192,14 @@ class _AddAppointmentScreenState extends State<AddAppointmentScreen> {
               Center(
                   child: ElevatedButton(
                       onPressed: () {
-                        saveAppointment();
+                        saveAppointment(
+                            context: context,
+                            doctorController: doctorController,
+                            clinicController: clinicController,
+                            placeController: placeController,
+                            selectedDate: selectedDate,
+                            selectedTime: selectedTime,
+                            reminderTime: reminderTime);
                       },
                       style: ElevatedButton.styleFrom(
                           minimumSize: Size(200, 60),

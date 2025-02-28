@@ -5,7 +5,6 @@ import 'package:intl/intl.dart'; // For date formatting
 
 class AddPrescriptionScreen extends StatefulWidget {
   final String doctorName;
-  
 
   AddPrescriptionScreen({required this.doctorName});
 
@@ -15,10 +14,10 @@ class AddPrescriptionScreen extends StatefulWidget {
 
 class _AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
   File? _image;
+  String _currentTime = DateFormat('hh:mm a').format(DateTime.now());
 
   Future<void> _pickImage() async {
     final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-
     if (pickedFile != null) {
       setState(() {
         _image = File(pickedFile.path);
@@ -26,37 +25,56 @@ class _AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
     }
   }
 
+  void _updateTime() {
+    setState(() {
+      _currentTime = DateFormat('hh:mm a').format(DateTime.now());
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      Stream.periodic(Duration(minutes: 1)).listen((_) => _updateTime());
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Add Prescription'),
+        backgroundColor: Colors.lightGreenAccent,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Doctor: ${widget.doctorName}", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Text("Time: $_currentTime", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             SizedBox(height: 10),
-            
+            Text("Doctor: ${widget.doctorName}", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            SizedBox(height: 20),
             Text("Upload Prescription Image:", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             SizedBox(height: 10),
-            _image == null
-                ? Text("No image selected.")
-                : Image.file(_image!, height: 200),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _pickImage,
-              child: Text("Choose Image"),
+            GestureDetector(
+              onTap: _pickImage,
+              child: Container(
+                height: 200,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: _image == null
+                    ? Center(child: Icon(Icons.add_a_photo, size: 50, color: Colors.grey))
+                    : Image.file(_image!, fit: BoxFit.cover),
+              ),
             ),
-            SizedBox(height: 20),
+            Spacer(),
             ElevatedButton(
               onPressed: () {
                 if (_image != null) {
-                  // Save the image logic here
                   print("Prescription image saved: ${_image!.path}");
                   Navigator.pop(context);
                 } else {
@@ -65,7 +83,11 @@ class _AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
                   );
                 }
               },
-              child: Text("Save Prescription"),
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(double.infinity, 50),
+                backgroundColor: Colors.lightGreenAccent,
+              ),
+              child: Text("Add Prescription", style: TextStyle(fontSize: 16)),
             )
           ],
         ),

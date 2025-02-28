@@ -94,11 +94,7 @@ class _ViewAppointmentsScreenState extends State<ViewAppointmentsScreen> {
                     trailing: Row(mainAxisSize: MainAxisSize.min, children: [
                       IconButton(
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => AddPrescriptionScreen(
-                                        doctorName: appointment.doctorname)));
+                           Navigator.push(context, MaterialPageRoute(builder: (context)=>AddPrescriptionScreen(doctorName: appointment.doctorname)));
                           },
                           icon: Icon(Icons.add_a_photo)),
                       IconButton(

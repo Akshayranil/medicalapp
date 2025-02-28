@@ -260,7 +260,7 @@ class AppointmentDataAdapter extends TypeAdapter<AppointmentData> {
       clinicname: fields[1] as String,
       placename: fields[2] as String,
       appointmentDateTime: fields[3] as DateTime,
-      remainderTime: fields[4] as int,
+      remainderTime: fields[4] as int?,
     );
   }
 
@@ -287,6 +287,49 @@ class AppointmentDataAdapter extends TypeAdapter<AppointmentData> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is AppointmentDataAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class RecordsAdapter extends TypeAdapter<Records> {
+  @override
+  final int typeId = 7;
+
+  @override
+  Records read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return Records(
+      recordPath: fields[0] as String,
+      recordDate: fields[1] as String,
+      recordName: fields[2] as String,
+      recordType: fields[3] as String,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, Records obj) {
+    writer
+      ..writeByte(4)
+      ..writeByte(0)
+      ..write(obj.recordPath)
+      ..writeByte(1)
+      ..write(obj.recordDate)
+      ..writeByte(2)
+      ..write(obj.recordName)
+      ..writeByte(3)
+      ..write(obj.recordType);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is RecordsAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

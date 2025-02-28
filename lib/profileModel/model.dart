@@ -142,10 +142,24 @@ class AppointmentData {
   @HiveField(4)
   int? remainderTime;
   AppointmentData({
-     required this.doctorname,
-     required this.clinicname,
-     required this.placename,
-     required this.appointmentDateTime,
-      this.remainderTime,
+    required this.doctorname,
+    required this.clinicname,
+    required this.placename,
+    required this.appointmentDateTime,
+    this.remainderTime,
   });
+}
+
+@HiveType(typeId: 7)
+class Records extends HiveObject {
+  @HiveField(0)
+  String recordPath;
+  @HiveField(1)
+  String recordDate;
+  @HiveField(2)
+  String recordName;
+  @HiveField(3)
+  String recordType;
+
+  Records({required this.recordPath,required this.recordDate,required this.recordName,required this.recordType});
 }

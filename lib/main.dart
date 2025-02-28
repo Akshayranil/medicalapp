@@ -10,13 +10,14 @@ import 'package:week7/profilemodel/model.dart';
 import 'package:week7/splashscreen/splash_screen.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+
 // final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 //     FlutterLocalNotificationsPlugin();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Initialize timezone
-   tz.initializeTimeZones();
-  //  initializeNotifications; 
+  tz.initializeTimeZones();
+  //  initializeNotifications;
 
   // Initialize notifications
   // const AndroidInitializationSettings initializationSettingsAndroid =
@@ -46,10 +47,14 @@ void main() async {
   await Hive.openBox<BMIResult>('bmiBox');
   Hive.registerAdapter(AppointmentDataAdapter());
   await Hive.openBox('appointments');
-   await AndroidAlarmManager.initialize(); // Initialize alarm manager
-   await requestAlarmPermission();
+  Hive.registerAdapter(RecordsAdapter());
+  await Hive.openBox<Records>('records');
+  await Hive.openBox<String>('settingsdateBox');
+  await AndroidAlarmManager.initialize(); // Initialize alarm manager
+  await requestAlarmPermission();
   runApp(MyApp());
 }
+
 Future<void> requestAlarmPermission() async {
   if (await Permission.scheduleExactAlarm.isDenied) {
     await Permission.scheduleExactAlarm.request();
@@ -101,8 +106,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
-
-
-
-

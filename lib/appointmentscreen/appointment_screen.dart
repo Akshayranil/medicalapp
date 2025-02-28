@@ -21,8 +21,12 @@ int _selectedIndex = 2;
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Appointments'),
+          title: Padding(
+            padding: EdgeInsets.only(left: 20),
+            child: Text('Appointments')),
+          automaticallyImplyLeading: false,
           backgroundColor: Colors.lightGreenAccent,
+          
           bottom: TabBar(indicatorColor: Colors.black,
             tabs: [
               Tab(text: 'View Appointment',),

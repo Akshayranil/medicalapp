@@ -211,6 +211,27 @@ Widget buildLockedSection(String time) {
   );
 }
 
+void showConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Center(child: CircleAvatar(
+          radius: 20,
+          backgroundColor: Colors.green,
+          child: Icon(Icons.check,))),
+        content: Text("You have successfully taken all your medicines for this session."),
+        backgroundColor: Colors.lightGreenAccent,
+        actions: [
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.greenAccent),
+            onPressed: () => Navigator.pop(context),
+            child: Text("OK",textAlign: TextAlign.center),
+          ),
+        ],
+      ),
+    );
+  }
+
 
 
 
