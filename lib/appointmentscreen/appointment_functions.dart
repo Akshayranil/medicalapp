@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:week7/appointmentscreen/alarm_functions.dart';
 import 'package:week7/profilemodel/model.dart';
 
-Future <void> saveAppointment({
+
+Future<void> saveAppointment({
   required BuildContext context,
   required TextEditingController doctorController,
   required TextEditingController clinicController,
@@ -16,6 +18,7 @@ Future <void> saveAppointment({
       placeController.text.isNotEmpty &&
       selectedDate != null &&
       selectedTime != null) {
+        
     DateTime appointmentDateTime = DateTime(
       selectedDate.year,
       selectedDate.month,
@@ -32,14 +35,18 @@ Future <void> saveAppointment({
       remainderTime: reminderTime,
     );
 
-    var box = Hive.box('appointments');
+    var box = Hive.box<AppointmentData>('appointments');
     int id = await box.add(newAppointment);
 
-    // scheduleRealTimeAlarm(newAppointment, id); // Real-time alarm
+    // ✅ Schedule the real-time alarm & notification
+    if (reminderTime != null) {
+      scheduleAppointmentAlarm(
+        appointmentId: id,  // Use Hive's ID for uniqueness
+        appointmentTime: appointmentDateTime,
+        reminderMinutes: reminderTime,  // Dynamic reminder time
+      );
+    }
 
-    Navigator.pop(context); // This will go back to the tab and trigger a refresh
-
+    Navigator.pop(context); // Go back and refresh the tab
   }
 }
-
-

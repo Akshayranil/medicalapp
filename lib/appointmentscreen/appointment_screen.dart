@@ -35,7 +35,7 @@ int _selectedIndex = 2;
         ),
         body: TabBarView(children: [
           ViewAppointmentsScreen(),
-          StoreData()
+          ViewPrescriptionsScreen(),
         ]),
         
         floatingActionButton: FloatingActionButton(

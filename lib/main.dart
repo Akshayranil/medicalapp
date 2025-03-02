@@ -1,4 +1,5 @@
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive/hive.dart';
@@ -46,14 +47,39 @@ void main() async {
   Hive.registerAdapter(BMIResultAdapter());
   await Hive.openBox<BMIResult>('bmiBox');
   Hive.registerAdapter(AppointmentDataAdapter());
-  await Hive.openBox('appointments');
+  await Hive.openBox<AppointmentData>('appointments');
   Hive.registerAdapter(RecordsAdapter());
   await Hive.openBox<Records>('records');
   await Hive.openBox<String>('settingsdateBox');
+  // Initialize Awesome Notifications
+  await AwesomeNotifications().initialize(
+  null,
+  [
+    NotificationChannel(
+      channelKey: 'appointment_channel',
+      channelName: 'Appointment Notifications',
+      channelDescription: 'Reminder for upcoming appointments',
+      defaultColor: Colors.blue,
+      importance: NotificationImportance.Max, // 🔹 Ensure max importance
+      ledColor: Colors.white,
+      playSound: true, // 🔹 Enable sound
+      soundSource: 'resource://raw/alarm',
+      enableVibration: true,
+      
+    )
+  ],
+  debug: true,
+);
+
+   print("✅ Awesome Notifications Initialized");
+
+  // ✅ Request Permissions
+  await requestPermissions();
   await AndroidAlarmManager.initialize(); // Initialize alarm manager
-  await requestAlarmPermission();
+  // await requestAlarmPermission();
   runApp(MyApp());
 }
+
 
 Future<void> requestAlarmPermission() async {
   if (await Permission.scheduleExactAlarm.isDenied) {
@@ -89,6 +115,25 @@ void checkLowMedicineCount(Box settingsBox) {
   settingsBox.put('lowMedicineWarning', lowMedicineFound);
 }
 
+Future<void> requestPermissions() async {
+  // Check & request notification permission
+  bool isAllowed = await AwesomeNotifications().isNotificationAllowed();
+  if (!isAllowed) {
+    await AwesomeNotifications().requestPermissionToSendNotifications();
+  }
+
+  // ✅ Request SCHEDULE_EXACT_ALARM permission for Android 12+
+  if (await Permission.scheduleExactAlarm.isDenied) {
+    await Permission.scheduleExactAlarm.request();
+  }
+
+   if (await Permission.notification.isDenied) {
+    await Permission.notification.request();
+  }
+}
+
+
+
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -105,4 +150,7 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+
+  
 }
+

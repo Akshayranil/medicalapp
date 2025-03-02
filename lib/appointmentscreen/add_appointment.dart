@@ -204,7 +204,8 @@ class _AddAppointmentScreenState extends State<AddAppointmentScreen> {
                       style: ElevatedButton.styleFrom(
                           minimumSize: Size(200, 60),
                           backgroundColor: Colors.lightGreenAccent),
-                      child: Text('Add Appointment')))
+                      child: Text('Add Appointment'))),
+              
             ],
           ),
         ),

@@ -22,40 +22,23 @@ class _ViewAppointmentsScreenState extends State<ViewAppointmentsScreen> {
   @override
   void initState() {
     super.initState();
-    // initializeNotifications(); // Initialize notifications
-    // Initialize timezone
-    tz.initializeTimeZones();
+    
 
-    var box = Hive.box('appointments');
+    var box = Hive.box<AppointmentData>('appointments');
     var appointments = box.values.toList();
 
-    for (int i = 0; i < appointments.length; i++) {
-      scheduleRealTimeAlarm(
-          appointments[i], i); // Schedule alarm even if app is off
-    }
+    // for (int i = 0; i < appointments.length; i++) {
+    //   scheduleRealTimeAlarm(
+    //       appointments[i], i); // Schedule alarm even if app is off
+    // }
   }
 
-  void scheduleRealTimeAlarm(appointment, int id) async {
-    DateTime alarmTime = appointment.appointmentDateTime.subtract(
-      Duration(minutes: appointment.remainderTime),
-    );
-
-    int alarmId = id; // Unique alarm ID
-
-    await AndroidAlarmManager.oneShotAt(
-      alarmTime, // Time when the alarm should trigger
-      alarmId, // Unique ID for the alarm
-      triggerAlarm, // Function to run when the alarm triggers
-      exact: true,
-      wakeup: true, // Wake up the device even if it's off
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ValueListenableBuilder(
-        valueListenable: Hive.box('appointments').listenable(),
+        valueListenable: Hive.box<AppointmentData>('appointments').listenable(),
         builder: (context, Box box, _) {
           if (box.isEmpty) {
             return Center(child: Text('No Appointments Found'));
@@ -93,8 +76,13 @@ class _ViewAppointmentsScreenState extends State<ViewAppointmentsScreen> {
                     ),
                     trailing: Row(mainAxisSize: MainAxisSize.min, children: [
                       IconButton(
-                          onPressed: () {
-                           Navigator.push(context, MaterialPageRoute(builder: (context)=>AddPrescriptionScreen(doctorName: appointment.doctorname)));
+                          onPressed: () async{
+                          await Navigator.push(context, MaterialPageRoute(builder: (context)=>AddPrescriptionScreen(
+                            doctorName: appointment.doctorname,
+                           appointmentDate: appointment.appointmentDateTime,)));
+                           setState(() {
+                             
+                           });
                           },
                           icon: Icon(Icons.add_a_photo)),
                       IconButton(
@@ -119,7 +107,4 @@ class _ViewAppointmentsScreenState extends State<ViewAppointmentsScreen> {
   }
 }
 
-// Function to execute when the alarm triggers
-void triggerAlarm() {
-  print("Alarm Triggered!"); // You can replace this with notification logic
-}
+

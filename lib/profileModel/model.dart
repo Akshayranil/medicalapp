@@ -141,12 +141,15 @@ class AppointmentData {
   DateTime appointmentDateTime;
   @HiveField(4)
   int? remainderTime;
+  @HiveField(5)
+  String? prescriptionimage;
   AppointmentData({
     required this.doctorname,
     required this.clinicname,
     required this.placename,
     required this.appointmentDateTime,
     this.remainderTime,
+    this.prescriptionimage
   });
 }
 
@@ -161,5 +164,9 @@ class Records extends HiveObject {
   @HiveField(3)
   String recordType;
 
-  Records({required this.recordPath,required this.recordDate,required this.recordName,required this.recordType});
+  Records(
+      {required this.recordPath,
+      required this.recordDate,
+      required this.recordName,
+      required this.recordType});
 }

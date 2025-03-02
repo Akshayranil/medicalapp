@@ -6,7 +6,7 @@ import 'package:week7/profilemodel/model.dart';
 import 'package:week7/profilescreen/editprofile/edit_profile.dart';
 import 'package:week7/profilescreen/helpandsupport/help_support.dart';
 import 'package:week7/profilescreen/personaldetails/personal_details.dart';
-import 'package:week7/profilescreen/privacypolicy/privacy_policy.dart';
+import 'package:week7/profilescreen/settings/settings.dart';
 
 // ignore: must_be_immutable
 class ScreenProfile extends StatefulWidget {
@@ -250,16 +250,16 @@ class _ScreenProfileState extends State<ScreenProfile> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => PrivacyPolicy()));
+                                builder: (context) => Settings()));
                       },
                       child: Row(
                         mainAxisAlignment:
                             MainAxisAlignment.start, // Align text to the left
                         children: [
-                          Icon(Icons.privacy_tip, color: Colors.black),
+                          Icon(Icons.settings, color: Colors.black),
                           SizedBox(width: 16),
                           Text(
-                            'Privacy Policy',
+                            'Settings',
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),

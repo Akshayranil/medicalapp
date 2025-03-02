@@ -261,13 +261,14 @@ class AppointmentDataAdapter extends TypeAdapter<AppointmentData> {
       placename: fields[2] as String,
       appointmentDateTime: fields[3] as DateTime,
       remainderTime: fields[4] as int?,
+      prescriptionimage: fields[5] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, AppointmentData obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.doctorname)
       ..writeByte(1)
@@ -277,7 +278,9 @@ class AppointmentDataAdapter extends TypeAdapter<AppointmentData> {
       ..writeByte(3)
       ..write(obj.appointmentDateTime)
       ..writeByte(4)
-      ..write(obj.remainderTime);
+      ..write(obj.remainderTime)
+      ..writeByte(5)
+      ..write(obj.prescriptionimage);
   }
 
   @override

@@ -1,49 +1,50 @@
-// import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
-// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'dart:ui';
+import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 
-// final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+// Callback function for background alarm execution
+void callbackDispatcher() {
+  print("🔔 Alarm triggered in background!");
+  sendNotification(9999); // Test notification
+}
 
-// Future<void> initializeNotifications() async {
-//   const AndroidInitializationSettings androidInit = AndroidInitializationSettings('@mipmap/ic_launcher');
-//   const InitializationSettings initSettings = InitializationSettings(android: androidInit);
-//   await flutterLocalNotificationsPlugin.initialize(initSettings);
-// }
+// Schedule the alarm and notification
+void scheduleAppointmentAlarm({
+  required int appointmentId,
+  required DateTime appointmentTime,
+  required int reminderMinutes,
+}) async {
+  DateTime reminderTime = appointmentTime.subtract(Duration(minutes: reminderMinutes));
 
-// // Show notification when alarm triggers
-// void showNotification() async {
-//   const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
-//     'alarm_channel',
-//     'Alarm Notifications',
-//     importance: Importance.max,
-//     priority: Priority.high,
-//   );
-//   const NotificationDetails notificationDetails = NotificationDetails(android: androidDetails);
+  print("⏰ Scheduling alarm for: $reminderTime");
 
-//   await flutterLocalNotificationsPlugin.show(
-//     0,
-//     'Medicine Alert!',
-//     'It\'s time to take your medicine.',
-//     notificationDetails,
-//   );
-// }
+  bool isScheduled = await AndroidAlarmManager.oneShotAt(
+    reminderTime,
+    appointmentId,
+    callbackDispatcher,  // Uses background-safe callback
+    exact: true,
+    wakeup: true,
+    allowWhileIdle: true,
+  );
 
-// // Alarm callback
-// void alarmCallback() {
-//   showNotification();
-// }
+  print("✅ Alarm Scheduled: $isScheduled");
+}
 
-// // Function to schedule an alarm
-// Future<void> scheduleAlarm(DateTime appointmentTime, int minutesBefore) async {
-//   DateTime alarmTime = appointmentTime.subtract(Duration(minutes: minutesBefore));
-//   int alarmId = 0; // Unique alarm ID
+// Function to show the notification
+void sendNotification(int id) {
+  print("🔔 Sending notification with ID: $id");
 
-//   await AndroidAlarmManager.oneShotAt(
-//     alarmTime,
-//     alarmId,
-//     alarmCallback,
-//     exact: true,
-//     wakeup: true,
-//   );
-// }
+  AwesomeNotifications().createNotification(
+    content: NotificationContent(
+      id: id,
+      channelKey: 'appointment_channel',
+      title: 'Appointment Reminder',
+      body: 'You have an appointment in a few minutes!',
+      notificationLayout: NotificationLayout.Default,
+    ),
+  );
+}
+
+
 
 
