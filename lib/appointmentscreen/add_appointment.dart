@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:week7/appointmentscreen/appointment_functions.dart';
-import 'package:week7/appointmentscreen/appointment_view.dart';
-import 'package:week7/appointmentscreen/time_function.dart';
-import 'package:week7/profilemodel/model.dart';
+import 'package:week7/appointmentscreen/customappointments/appointment_remainder.dart';
+import 'package:week7/appointmentscreen/customappointments/custom_textfield.dart';
 
 class AddAppointmentScreen extends StatefulWidget {
   @override
@@ -35,7 +33,7 @@ class _AddAppointmentScreenState extends State<AddAppointmentScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Add Appointment'),
-        backgroundColor: Colors.lightGreenAccent,
+        backgroundColor: Colors.blue,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -43,51 +41,9 @@ class _AddAppointmentScreenState extends State<AddAppointmentScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Doctor Name",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-              Card(
-                elevation: 2,
-                child: Padding(
-                  padding: EdgeInsets.all(8),
-                  child: TextField(
-                    controller: doctorController,
-                    decoration: InputDecoration(
-                        hintText: "Doctor's name", border: InputBorder.none),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              Text("Clinic Name",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-              Card(
-                elevation: 2,
-                child: Padding(
-                  padding: EdgeInsets.all(8),
-                  child: TextField(
-                    controller: clinicController,
-                    decoration: InputDecoration(
-                        hintText: "Clinic name", border: InputBorder.none),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              Text("City Name",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-              Card(
-                elevation: 2,
-                child: Padding(
-                  padding: EdgeInsets.all(8),
-                  child: TextField(
-                    controller: placeController,
-                    decoration: InputDecoration(
-                        hintText: "City ", border: InputBorder.none),
-                  ),
-                ),
-              ),
+              CustomTextfield(controller: doctorController, hintText:"Doctor's name",textName: "Doctor name",),
+              CustomTextfield(controller: clinicController, hintText: "Clinic's name", textName: "Clinic name"),
+              CustomTextfield(controller: placeController, hintText: "City", textName: "City"),
               SizedBox(
                 height: 16,
               ),
@@ -110,7 +66,7 @@ class _AddAppointmentScreenState extends State<AddAppointmentScreen> {
                               selectedDate = await showDatePicker(
                                 context: context,
                                 initialDate: DateTime.now(),
-                                firstDate: DateTime(2000),
+                                firstDate: DateTime.now(),
                                 lastDate: DateTime(2100),
                               );
                               setState(() {});
@@ -152,42 +108,15 @@ class _AddAppointmentScreenState extends State<AddAppointmentScreen> {
               SizedBox(
                 height: 16,
               ),
-              Text("Set Reminder",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+             
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  DropdownButton<int>(
-                    value: reminderTime,
-                    hint: Text('Select reminder time'),
-                    items: [
-                      DropdownMenuItem(
-                        child: Text('30 Minutes before'),
-                        value: 30,
-                      ),
-                      DropdownMenuItem(
-                        child: Text('60 Minutes before'),
-                        value: 60,
-                      ),
-                      DropdownMenuItem(
-                        child: Text('120 Minutes before'),
-                        value: 120,
-                      ),
-                      DropdownMenuItem(
-                        child: Text('240 Minutes before'),
-                        value: 240,
-                      ),
-                    ],
-                    onChanged: (int? value) {
-                      setState(() {
-                        reminderTime = value;
-                      });
-                    },
-                  ),
+                 ReminderDropdown(onReminderSelected: (reminder)=>reminderTime=reminder),
                 ],
               ),
               SizedBox(
-                height: 180,
+                height: 170,
               ),
               Center(
                   child: ElevatedButton(
@@ -203,8 +132,8 @@ class _AddAppointmentScreenState extends State<AddAppointmentScreen> {
                       },
                       style: ElevatedButton.styleFrom(
                           minimumSize: Size(200, 60),
-                          backgroundColor: Colors.lightGreenAccent),
-                      child: Text('Add Appointment'))),
+                          backgroundColor: Colors.blue),
+                      child: Text('Add Appointment',style: TextStyle(color: Colors.white),))),
               
             ],
           ),

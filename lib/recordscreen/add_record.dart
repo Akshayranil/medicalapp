@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'dart:io';
 
 import 'package:week7/profilemodel/model.dart';
@@ -14,7 +15,8 @@ class AddRecordScreen extends StatefulWidget {
 class _AddRecordScreenState extends State<AddRecordScreen> {
   File? _image;
   final TextEditingController _recordNameController = TextEditingController();
-  final String _todayDate = DateTime.now().toLocal().toString().split(' ')[0];
+  final String _todayDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
+
   String? _selectedRecordtype = 'X-Ray';
 
   Future<void> _pickImage(BuildContext context) async {
@@ -47,7 +49,7 @@ class _AddRecordScreenState extends State<AddRecordScreen> {
                     children: [
                       IconButton(
                         icon: Icon(Icons.photo_library,
-                            size: 40, color: Colors.green),
+                            size: 40, color: Colors.blue),
                         onPressed: () =>
                             _pickImageFromSource(ImageSource.gallery, context),
                       ),
@@ -100,7 +102,7 @@ class _AddRecordScreenState extends State<AddRecordScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Add Record'),
-        backgroundColor: Colors.lightGreenAccent,
+        backgroundColor: Colors.blue,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -164,10 +166,10 @@ class _AddRecordScreenState extends State<AddRecordScreen> {
                     
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.lightGreenAccent,
+                    backgroundColor: Colors.blue,
                     minimumSize: Size(250, 60),
                   ),
-                  child: Text('Save Record'),
+                  child: Text('Save Record',style: TextStyle(color: Colors.white),),
                 ),
               ),
             ],

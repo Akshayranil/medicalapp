@@ -11,7 +11,7 @@ class AddVitals extends StatefulWidget {
 }
 
 class _AddVitalsState extends State<AddVitals> {
-  String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  String date = DateFormat('dd-MM-yyyy-').format(DateTime.now());
   String time = DateFormat('hh:mm a').format(DateTime.now());
   final TextEditingController bpController = TextEditingController();
   final TextEditingController pulseController = TextEditingController();
@@ -127,10 +127,10 @@ class _AddVitalsState extends State<AddVitals> {
         ElevatedButton(
           onPressed: isDisabled ? null : () => saveVital(key, controller),
           style: ElevatedButton.styleFrom(
-            backgroundColor: isDisabled ? Colors.grey : Colors.lightGreenAccent,
+            backgroundColor: isDisabled ? Colors.grey : Colors.blue,
             minimumSize: Size(200, 40),
           ),
-          child: Text(isDisabled ? "Added" : "Save"),
+          child: Text(isDisabled ? "Added" : "Save",style: TextStyle(color: Colors.white),),
         ),
         SizedBox(height: 20),
       ],

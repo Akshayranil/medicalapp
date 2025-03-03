@@ -86,8 +86,8 @@ void MedicineDialogue(BuildContext context) {
                     Navigator.pop(context);
                   }
                 },
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-                child: Text('Add'),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                child: Text('Add',style: TextStyle(color: Colors.white),),
               )
             ],
           );
@@ -189,27 +189,27 @@ void showEditMedicine(BuildContext context, Box<MedicineData> newMedicine, int i
   );
 }
 
-Widget buildLockedSection(String time) {
-  return Center(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(Icons.lock, size: 50, color: Colors.grey),
-        SizedBox(height: 10),
-        Text(
-          "This section is locked.",
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.red),
-        ),
-        SizedBox(height: 5),
-        Text(
-          "You can access $time medicines only during its time.",
-          textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.black54),
-        ),
-      ],
-    ),
-  );
-}
+// Widget buildLockedSection(String time) {
+//   return Center(
+//     child: Column(
+//       mainAxisAlignment: MainAxisAlignment.center,
+//       children: [
+//         Icon(Icons.lock, size: 50, color: Colors.grey),
+//         SizedBox(height: 10),
+//         Text(
+//           "This section is locked.",
+//           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.red),
+//         ),
+//         SizedBox(height: 5),
+//         Text(
+//           "You can access $time medicines only during its time.",
+//           textAlign: TextAlign.center,
+//           style: TextStyle(color: Colors.black54),
+//         ),
+//       ],
+//     ),
+//   );
+// }
 
 void showConfirmationDialog(BuildContext context) {
     showDialog(
@@ -231,7 +231,6 @@ void showConfirmationDialog(BuildContext context) {
       ),
     );
   }
-
 
 
 

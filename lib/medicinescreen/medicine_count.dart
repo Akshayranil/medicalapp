@@ -35,26 +35,13 @@ class MedicineCount extends StatelessWidget {
                                 fontSize: 18, fontWeight: FontWeight.bold)),
                         Row(
                           children: [
-                            // IconButton(
-                            //     onPressed: () {
-                            //       if (meddata.count > 0) {
-                            //         updateMedicine(
-                            //             newMedicine, index, meddata.count - 1);
-                            //       }
-                            //     },
-                            //     icon: Icon(Icons.remove)),
+                          
                             Text(
                               "${meddata.count}",
                               style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: textColor),
                             ),
                             SizedBox(width: 60,),
-                            // IconButton(
-                            //   icon: Icon(Icons.add, color: Colors.green),
-                            //   onPressed: () {
-                            //     updateMedicine(
-                            //         newMedicine, index, meddata.count + 1);
-                            //   },
-                            // ),
+                          
                             IconButton(
                                 onPressed: () {
                                   showDeleteMedicine(

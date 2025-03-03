@@ -2,9 +2,11 @@ import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:intl/intl.dart';
 import 'package:week7/appointmentscreen/add_prescription.dart';
 import 'package:week7/appointmentscreen/alarm_functions.dart';
-import 'package:week7/appointmentscreen/time_function.dart';
+import 'package:week7/appointmentscreen/edit_appointment.dart';
+
 import 'package:week7/main.dart';
 import 'package:week7/profilemodel/model.dart';
 // import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -22,17 +24,10 @@ class _ViewAppointmentsScreenState extends State<ViewAppointmentsScreen> {
   @override
   void initState() {
     super.initState();
-    
 
     var box = Hive.box<AppointmentData>('appointments');
     var appointments = box.values.toList();
-
-    // for (int i = 0; i < appointments.length; i++) {
-    //   scheduleRealTimeAlarm(
-    //       appointments[i], i); // Schedule alarm even if app is off
-    // }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -62,8 +57,7 @@ class _ViewAppointmentsScreenState extends State<ViewAppointmentsScreen> {
                                 fontWeight: FontWeight.bold, fontSize: 18)),
                         SizedBox(height: 5),
                         Text(
-                          "Date: ${appointment.appointmentDateTime.day}/${appointment.appointmentDateTime.month}/${appointment.appointmentDateTime.year} "
-                          "${appointment.appointmentDateTime.hour.toString().padLeft(2, '0')}:${appointment.appointmentDateTime.minute.toString().padLeft(2, '0')}",
+                          "Date: ${DateFormat('dd-MM-yyyy').format(appointment.appointmentDateTime)}",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Text("Clinic: ${appointment.clinicname}"),
@@ -76,15 +70,27 @@ class _ViewAppointmentsScreenState extends State<ViewAppointmentsScreen> {
                     ),
                     trailing: Row(mainAxisSize: MainAxisSize.min, children: [
                       IconButton(
-                          onPressed: () async{
-                          await Navigator.push(context, MaterialPageRoute(builder: (context)=>AddPrescriptionScreen(
-                            doctorName: appointment.doctorname,
-                           appointmentDate: appointment.appointmentDateTime,)));
-                           setState(() {
-                             
-                           });
+                          onPressed: () async {
+                            await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AddPrescriptionScreen(
+                                          doctorName: appointment.doctorname,
+                                          appointmentDate:
+                                              appointment.appointmentDateTime,
+                                        )));
+                            setState(() {});
                           },
                           icon: Icon(Icons.add_a_photo)),
+                      IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => EditAppointmentScreen(
+                                        appointment: appointment)));
+                          },
+                          icon: Icon(Icons.edit)),
                       IconButton(
                         icon: Icon(Icons.delete, color: Colors.red),
                         onPressed: () {
@@ -106,5 +112,3 @@ class _ViewAppointmentsScreenState extends State<ViewAppointmentsScreen> {
     );
   }
 }
-
-

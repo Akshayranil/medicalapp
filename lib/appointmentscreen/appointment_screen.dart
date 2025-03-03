@@ -25,9 +25,10 @@ int _selectedIndex = 2;
             padding: EdgeInsets.only(left: 20),
             child: Text('Appointments')),
           automaticallyImplyLeading: false,
-          backgroundColor: Colors.lightGreenAccent,
+          backgroundColor: Colors.blue,
           
           bottom: TabBar(indicatorColor: Colors.black,
+          labelColor: Colors.white,
             tabs: [
               Tab(text: 'View Appointment',),
               Tab(text: 'View Prescription',),
@@ -43,7 +44,7 @@ int _selectedIndex = 2;
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => AddAppointmentScreen()));
           },
-          backgroundColor: Colors.lightGreenAccent,
+          backgroundColor: Colors.blue,
           child: Icon(Icons.add),
         ),
         bottomNavigationBar: ButtonNavigation(currentIndex: _selectedIndex ,

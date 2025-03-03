@@ -34,7 +34,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                       style: const TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.bold,
-                          color: Colors.green),
+                          color: Colors.blue),
                     ),
                   ),
                 ),

@@ -21,7 +21,7 @@ class _VersionScreenState extends State<VersionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("App Version & Update"),backgroundColor: Colors.lightGreenAccent),
+      appBar: AppBar(title: Text("App Version & Update"),backgroundColor: Colors.blue),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
@@ -34,8 +34,8 @@ class _VersionScreenState extends State<VersionScreen> {
             ElevatedButton(
               onPressed: () {
                 _checkForUpdate();
-              },
-              child: Text("Check for Updates"),
+              },style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+              child: Text("Check for Updates",style: TextStyle(color: Colors.white),),
             ),
             SizedBox(height: 20),
             _buildSectionTitle("Automatic Updates"),

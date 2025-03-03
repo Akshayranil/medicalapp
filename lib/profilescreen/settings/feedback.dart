@@ -26,7 +26,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Feedback & Report Issue"),backgroundColor: Colors.lightGreenAccent),
+      appBar: AppBar(title: Text("Feedback & Report Issue"),backgroundColor: Colors.blue),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
@@ -46,8 +46,8 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
             SizedBox(height: 20),
             Center(
               child: ElevatedButton(
-                onPressed: _submitFeedback,
-                child: Text("Submit Feedback"),
+                onPressed: _submitFeedback,style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                child: Text("Submit Feedback",style: TextStyle(color: Colors.white),),
               ),
             ),
             SizedBox(height: 20),

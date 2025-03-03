@@ -125,7 +125,7 @@ class _AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Add Prescription'),
-        backgroundColor: Colors.lightGreenAccent,
+        backgroundColor: Colors.blue,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -164,9 +164,9 @@ class _AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
               onPressed: _savePrescription,
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(double.infinity, 50),
-                backgroundColor: Colors.lightGreenAccent,
+                backgroundColor: Colors.blue,
               ),
-              child: Text("Add Prescription", style: TextStyle(fontSize: 16)),
+              child: Text("Add Prescription", style: TextStyle(fontSize: 16,color: Colors.white)),
             ),
           ],
         ),

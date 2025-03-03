@@ -20,7 +20,7 @@ class BloodGlucoseScreenState extends State<BloodGlucoseScreen> {
 
     // Automatically set the current date and time when the screen is loaded
     DateTime now = DateTime.now();
-    _dateController.text = DateFormat('yyyy-MM-dd').format(now);
+   _dateController.text = DateFormat('dd-MM-yyyy').format(now);
     _timeController.text = DateFormat('HH:mm:ss').format(now);
   }
   
@@ -142,8 +142,8 @@ class BloodGlucoseScreenState extends State<BloodGlucoseScreen> {
                       },
                       style: ElevatedButton.styleFrom(
                           minimumSize: Size(200, 60),
-                          backgroundColor: Colors.lightGreenAccent),
-                      child: Text('Save'))),
+                          backgroundColor: Colors.blue),
+                      child: Text('Save',style: TextStyle(color: Colors.white),))),
             ],
           ),
         ),
@@ -168,16 +168,4 @@ class BloodGlucoseScreenState extends State<BloodGlucoseScreen> {
     );
   }
 
-  // void _retrieveBloodGlucoseRecords() async {
-  //   var box = await Hive.openBox<BloodGlucoseRecord>('bloodGlucoseRecords');
-  //   List<BloodGlucoseRecord> records = box.values.toList(); // Get all records
-
-  //   // Print or display the records
-  //   for (var record in records) {
-  //     print(record.date);
-  //     print(record.time);
-  //     print(record.glucoseLevel);
-  //     print(record.foodIntakeStatus);
-  //   }
-  // }
 }

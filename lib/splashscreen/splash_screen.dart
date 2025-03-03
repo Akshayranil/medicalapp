@@ -51,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.greenAccent,
+      backgroundColor: Colors.lightBlueAccent,
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -59,7 +59,7 @@ class _SplashScreenState extends State<SplashScreen> {
             Image.asset('assets/images/medical-removebg-preview.png'),
             Text(
               'V-Care',
-              style: TextStyle(fontSize: 60, color: Colors.green),
+              style: TextStyle(fontSize: 60, color: Colors.blueGrey),
             ),
           ],
         ),

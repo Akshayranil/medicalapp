@@ -33,8 +33,9 @@ class _Medicine1State extends State<MedicineScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text('My Medicals'),
-          backgroundColor: Colors.lightGreenAccent,
-          bottom: TabBar(indicatorColor: Colors.black, tabs: [
+          backgroundColor: Colors.blue,
+          bottom: TabBar(labelColor: Colors.white,
+            indicatorColor: Colors.black, tabs: [
             Tab(
               text: 'Medicine List',
             ),
@@ -51,7 +52,7 @@ class _Medicine1State extends State<MedicineScreen> {
           onPressed: () {
             MedicineDialogue(context);
           },
-          backgroundColor: Colors.lightGreenAccent,
+          backgroundColor: Colors.blue,
           child: Icon(Icons.add),
         ),
       ),

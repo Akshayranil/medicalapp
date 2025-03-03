@@ -19,7 +19,7 @@ class Profile {
   final String bloodGroup;
 
   @HiveField(5)
-  final String photoPath;
+   String photoPath;
   @HiveField(6)
   final String city;
 

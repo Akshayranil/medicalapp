@@ -12,8 +12,9 @@ class BMIMain extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text('BMI Screen'),
-          backgroundColor: Colors.lightGreenAccent,
+          backgroundColor: Colors.blue,
           bottom: TabBar(
+            labelColor: Colors.white,
             tabs:[
               Tab(text: 'BMI Check',),
               Tab(text: 'Saved BMI',)

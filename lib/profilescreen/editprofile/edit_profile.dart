@@ -74,7 +74,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Edit Profile"),backgroundColor: Colors.lightGreenAccent,),
+      appBar: AppBar(title: Text("Edit Profile"),backgroundColor: Colors.blue,),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -138,7 +138,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   onPressed: _saveProfile,
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(250, 50),
-                    backgroundColor: Colors.green,
+                    backgroundColor: Colors.blue,
                   ),
                   child: const Text("Save Profile", style: TextStyle(color: Colors.white)),
                 ),

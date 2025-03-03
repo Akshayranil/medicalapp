@@ -4,7 +4,7 @@ class PrivacyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Privacy Policy"),backgroundColor: Colors.lightGreenAccent),
+      appBar: AppBar(title: Text("Privacy Policy"),backgroundColor: Colors.blue),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -59,8 +59,8 @@ class PrivacyScreen extends StatelessWidget {
               SizedBox(height: 20),
               Center(
                 child: ElevatedButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: Text("Accept & Continue"),
+                  onPressed: () => Navigator.pop(context),style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                  child: Text("Accept & Continue",style: TextStyle(color: Colors.white),),
                 ),
               ),
             ],

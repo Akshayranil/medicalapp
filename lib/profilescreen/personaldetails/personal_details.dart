@@ -44,7 +44,7 @@ class _MyDetailsState extends State<MyDetails> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.lightGreenAccent,
+        backgroundColor: Colors.blue,
         title: const Text("Profile Details"),
       ),
       body: Column(

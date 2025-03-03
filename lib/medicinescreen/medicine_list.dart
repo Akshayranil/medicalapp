@@ -44,16 +44,6 @@ class _MedicineListState extends State<MedicineList> with SingleTickerProviderSt
   String _getCurrentSession() {
     return ["Morning", "Afternoon", "Night"][_getCurrentTabIndex()];
   }
-//This stores indicates the medicine has been taken
-  // void _loadTakenMedicines() {
-  //   String session = _getCurrentSession();
-  //   List<int>? storedTakenMedicines = takenMedicinesBox.get(session);
-  //   if (storedTakenMedicines != null) {
-  //     setState(() {
-  //       takenMedicines = storedTakenMedicines.toSet();
-  //     });
-  //   }
-  // }
 
  void _loadTakenMedicines() {
   String session = _getCurrentSession();
@@ -106,9 +96,10 @@ class _MedicineListState extends State<MedicineList> with SingleTickerProviderSt
   child: TabBarView(
     controller: _tabController,
     children: [
-      _getCurrentSession() == "Morning" ? _buildMedicineList("Morning") : buildLockedSection("Morning"),
-      _getCurrentSession() == "Afternoon" ? _buildMedicineList("Afternoon") : buildLockedSection("Afternoon"),
-      _getCurrentSession() == "Night" ? _buildMedicineList("Night") : buildLockedSection("Night"),
+   
+       _buildMedicineList("Morning"),
+      _buildMedicineList("Afternoon"),
+      _buildMedicineList("Night"),
     ],
   ),
 ),
@@ -125,98 +116,57 @@ class _MedicineListState extends State<MedicineList> with SingleTickerProviderSt
     );
   }
 
-  Widget _buildMedicineList(String time) {
-    return ValueListenableBuilder(
-      valueListenable: medicineBox.listenable(),
-      builder: (context, Box<MedicineData> box, _) {
-        var filteredMedicines = box.values.toList();
-        var medicineKeys = box.keys.toList(); 
 
-        filteredMedicines = filteredMedicines.where((medicine) {
-          if (time == "Morning") return medicine.morning;
-          if (time == "Afternoon") return medicine.afternoon;
-          if (time == "Night") return medicine.night;
-          return false;
-        }).toList();
 
-        if (filteredMedicines.isEmpty) {
-          return Center(child: Text("No medicines for $time"));
-        }
+Widget _buildMedicineList(String time) {
+  bool isEnabled = _getCurrentSession() == time; // Enable only current session
 
-        return ListView.builder(
-          itemCount: filteredMedicines.length,
-          itemBuilder: (context, index) {
-            final medicine = filteredMedicines[index];
-            final medicineKey = medicineKeys[index]; 
-            final isTaken = takenMedicines.contains(medicineKey); 
-            
-            return ListTile(
-              title: Text(medicine.name),
-              
-              leading: Checkbox(
-                value: isTaken || selectedMedicines.contains(medicineKey),
-                onChanged: isTaken
-                    ? null 
-                    : (bool? value) {
-                        setState(() {
-                          if (value == true) {
-                            selectedMedicines.add(medicineKey);
-                          } else {
-                            selectedMedicines.remove(medicineKey);
-                          }
-                        });
-                      },
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
+  return ValueListenableBuilder(
+    valueListenable: medicineBox.listenable(),
+    builder: (context, Box<MedicineData> box, _) {
+      var filteredMedicines = box.values.where((medicine) {
+        if (time == "Morning") return medicine.morning;
+        if (time == "Afternoon") return medicine.afternoon;
+        if (time == "Night") return medicine.night;
+        return false;
+      }).toList();
 
-//   void _takeMedicine() {
-//   setState(() {
-//     String session = _getCurrentSession();
+      if (filteredMedicines.isEmpty) {
+        return Center(child: Text("No medicines for $time"));
+      }
 
-//     List<int> allMedicinesInSession = medicineBox.keys.where((key) {
-//       final medicine = medicineBox.get(key);
-//       if (medicine == null) return false;
-//       if (session == "Morning") return medicine.morning;
-//       if (session == "Afternoon") return medicine.afternoon;
-//       if (session == "Night") return medicine.night;
-//       return false;
-//     }).cast<int>().toList();
+      return ListView.builder(
+        itemCount: filteredMedicines.length,
+        itemBuilder: (context, index) {
+          final medicine = filteredMedicines[index];
+          final medicineKey = box.keys.toList()[index];
+          final isTaken = takenMedicines.contains(medicineKey);
 
-//     // Decrease count and mark as taken for selected medicines
-//     for (int key in selectedMedicines) {
-//       final medicine = medicineBox.get(key);
-//       if (medicine != null && medicine.count > 0) {
-//         medicine.count -= 1;
-//         medicineBox.put(key, medicine);
-//         takenMedicines.add(key); // Add medicine to taken list after decrement
-//       }
-//     }
+          return ListTile(
+            title: Text(medicine.name),
+            leading: Checkbox(
+              value: isTaken || selectedMedicines.contains(medicineKey),
+              onChanged: isEnabled && !isTaken
+                  ? (bool? value) {
+                      setState(() {
+                        if (value == true) {
+                          selectedMedicines.add(medicineKey);
+                        } else {
+                          selectedMedicines.remove(medicineKey);
+                        }
+                      });
+                    }
+                  : null, // Disabled if not in correct time
+            ),
+            trailing: Text("Count: ${medicine.count}", style: TextStyle(color: Colors.black54)),
+          );
+        },
+      );
+    },
+  );
+}
 
-//     // Save updated taken medicines
-//     takenMedicinesBox.put(session, takenMedicines.toList());
 
-//     // Now check if all medicines for the session have been taken
-//     bool allTaken = allMedicinesInSession.every((key) => takenMedicines.contains(key));
-
-//     selectedMedicines.clear();
-
-//     if (allTaken) {
-//       _showConfirmationDialog(); // Show success message
-//     } else {
-//       ScaffoldMessenger.of(context).showSnackBar(
-//         SnackBar(
-//           content: Text("You have not taken all your medicines!"),
-//           backgroundColor: Colors.red,
-//         ),
-//       );
-//     }
-//   });
-// }
 
 void _takeMedicine() {
   setState(() {

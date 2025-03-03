@@ -11,9 +11,10 @@ class GlucoseScreen extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.lightGreenAccent,
+          backgroundColor: Colors.blue,
           title: Text('Blood Glucose'),
           bottom: TabBar(
+            labelColor: Colors.white,
             tabs: [
               Tab(text: 'Add Blood Glucose',),
               Tab(text: 'View Trends',)

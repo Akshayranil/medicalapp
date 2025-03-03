@@ -1,45 +1,26 @@
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:week7/appointmentscreen/alarm_functions.dart';
-import 'package:week7/appointmentscreen/time_function.dart';
 import 'package:week7/profilemodel/model.dart';
 import 'package:week7/splashscreen/splash_screen.dart';
 import 'package:timezone/data/latest.dart' as tz;
-import 'package:timezone/timezone.dart' as tz;
-
-// final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-//     FlutterLocalNotificationsPlugin();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Initialize timezone
   tz.initializeTimeZones();
   //  initializeNotifications;
-
-  // Initialize notifications
-  // const AndroidInitializationSettings initializationSettingsAndroid =
-  //     AndroidInitializationSettings('@mipmap/ic_launcher');
-
-  // final InitializationSettings initializationSettings =
-  //     InitializationSettings(android: initializationSettingsAndroid);
-
-  // await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   await Hive.initFlutter();
   Hive.registerAdapter(ProfileAdapter());
-
   await Hive.openBox<Profile>('ProfileBox');
-
   Hive.registerAdapter(MedicineDataAdapter()); // Register the adapter
   await Hive.openBox<MedicineData>('medicineDataNewBox');
   await Hive.openBox<List<int>>('takenMedicinesBox');
   var settingsBox =
       await Hive.openBox('settingsBox'); // Box to store warning flag
-
-  // Check for low medicine count
+       // Check for low medicine count
   checkLowMedicineCount(settingsBox);
   Hive.registerAdapter(BloodGlucoseRecordAdapter());
   Hive.registerAdapter(VitalsModelAdapter());
@@ -134,23 +115,5 @@ Future<void> requestPermissions() async {
 
 
 
-class HomeScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Alarm Scheduler')),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () async {
-            // DateTime now = DateTime.now();
-            // await scheduleAlarm(now.add(Duration(minutes: 1)), 0); // Schedules alarm 1 min from now
-          },
-          child: Text('Set Alarm for 1 Minute Later'),
-        ),
-      ),
-    );
-  }
 
-  
-}
 

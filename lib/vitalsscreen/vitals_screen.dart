@@ -17,8 +17,9 @@ class _MyVitalsState extends State<MyVitals> {
       child: Scaffold(
         appBar: AppBar(
           title: Text('My Vitals'),
-          backgroundColor: Colors.lightGreenAccent,
-          bottom: TabBar(indicatorColor: Colors.black,
+          backgroundColor: Colors.blue,
+          bottom: TabBar(labelColor: Colors.white,
+            indicatorColor: Colors.black,
             tabs: [
               Tab(
                 text: 'Add Vitals',

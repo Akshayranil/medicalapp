@@ -6,7 +6,7 @@ class HelpSupportScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Help & Support'),
-        backgroundColor: Colors.lightGreenAccent,
+        backgroundColor: Colors.blue,
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),

@@ -18,7 +18,7 @@ class ButtonNavigation extends StatelessWidget {
         currentIndex: currentIndex,
         onTap: onTap,
         backgroundColor: Colors.black, // Set the background color of the bar
-        selectedItemColor: Colors.green, // Color for the selected icon
+        selectedItemColor: Colors.blue, // Color for the selected icon
         unselectedItemColor: Colors.grey, // Color for the unselected icons
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(

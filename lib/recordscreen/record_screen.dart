@@ -42,10 +42,11 @@ class _MyRecordsState extends State<MyRecords>
         title: Padding(
           padding: EdgeInsets.only(left: 20),
           child: Text('My Records')),
-        backgroundColor: Colors.lightGreenAccent,
+        backgroundColor: Colors.blue,
         automaticallyImplyLeading: false,
         bottom: TabBar(
           controller: _tabController,
+          labelColor: Colors.white,
           tabs: [
             Tab(text: 'X-Ray'),
             Tab(text: 'Scans'),
@@ -69,7 +70,7 @@ class _MyRecordsState extends State<MyRecords>
               MaterialPageRoute(builder: (context) => AddRecordScreen()));
           _loadRecords(); // Refresh records after adding
         },
-        backgroundColor: Colors.lightGreenAccent,
+        backgroundColor: Colors.blue,
         child: Icon(Icons.add),
       ),
       bottomNavigationBar: ButtonNavigation(
@@ -99,7 +100,7 @@ class _MyRecordsState extends State<MyRecords>
           elevation: 2,
           margin: EdgeInsets.all(10),
           child: ListTile(
-            leading: record.recordPath != null && record.recordPath!.isNotEmpty
+            leading: record.recordPath != null && record.recordPath.isNotEmpty
                 ? GestureDetector(
                     onTap: () {
                       showFullImage(context, record.recordPath);
