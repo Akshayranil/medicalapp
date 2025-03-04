@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:week7/preboardingscreen/splashscreen/splash_screen.dart';
 import 'package:week7/profilemodel/model.dart';
-import 'package:week7/splashscreen/splash_screen.dart';
+
 import 'package:timezone/data/latest.dart' as tz;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

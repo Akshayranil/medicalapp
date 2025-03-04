@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:week7/appointmentscreen/appointment_screen.dart';
-import 'package:week7/homescreen/home_screen.dart';
 import 'package:week7/profilemodel/model.dart';
-import 'package:week7/profilescreen/profile_screen.dart';
-import 'package:week7/recordscreen/record_screen.dart';
+import 'package:week7/screens/appointmentscreen/appointment_screen.dart';
+import 'package:week7/screens/homescreen/home_screen.dart';
+import 'package:week7/screens/profilescreen/profile_screen.dart';
+import 'package:week7/screens/recordscreen/record_screen.dart';
 
 class ButtonNavigation extends StatelessWidget {
   final int currentIndex;
