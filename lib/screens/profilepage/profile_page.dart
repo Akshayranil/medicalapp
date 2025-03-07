@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:hive/hive.dart';
 import 'package:week7/customwidgets/profile_gender.dart';
@@ -133,6 +134,10 @@ class _MyProfileState extends State<MyProfile> {
                   icon: Icons.call,
                   controller: _phoneController,
                   keyboardType: TextInputType.phone,
+                  inputFormatters: [
+                  LengthLimitingTextInputFormatter(10),  // Limits input to 10 digits
+                  FilteringTextInputFormatter.digitsOnly,  // Allows only numbers
+  ],
                 ),
                 CustomTextFieldProfile(
                   label: 'Date of Birth',
@@ -145,10 +150,13 @@ class _MyProfileState extends State<MyProfile> {
                   label: 'Enter your blood group',
                   icon: Icons.water_drop,
                   controller: _bloodController,
+                  inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'[ABOabo+-]')), // Allows only A, B, O, +, -
+                   ],
                 ),
                 CustomTextFieldProfile(label: 'Enter your city', icon: Icons.location_city, controller: _cityController),
                 const SizedBox(height: 30),
-
+                  SizedBox(height: 140,),
                 ElevatedButton(
                   onPressed: () {
                     saveProfile(

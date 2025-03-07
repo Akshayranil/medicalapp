@@ -142,6 +142,13 @@ Widget _buildMedicineList(String time) {
           final medicineKey = box.keys.toList()[index];
           final isTaken = takenMedicines.contains(medicineKey);
 
+          // ✅ Get the correct dosage for the session
+          double dosage = time == "Morning"
+              ? medicine.morningDosage
+              : time == "Afternoon"
+                  ? medicine.afternoonDosage
+                  : medicine.nightDosage;
+
           return ListTile(
             title: Text(medicine.name),
             leading: Checkbox(
@@ -158,13 +165,14 @@ Widget _buildMedicineList(String time) {
                     }
                   : null, // Disabled if not in correct time
             ),
-            trailing: Text("Count: ${medicine.count}", style: TextStyle(color: Colors.black54)),
+            trailing: Text("Dosage: $dosage", style: TextStyle(color: Colors.black54)), // ✅ Show dosage instead of count
           );
         },
       );
     },
   );
 }
+
 
 
 
@@ -182,19 +190,39 @@ void _takeMedicine() {
       return false;
     }).cast<int>().toList();
 
-    // ✅ Decrease count and mark as taken for selected medicines
+    // ✅ Reduce total count by correct dosage
     for (int key in selectedMedicines) {
       final medicine = medicineBox.get(key);
-      if (medicine != null && medicine.count > 0) {
-        medicine.count -= 1;  // ⬅️ Medicine count decreases
-        medicineBox.put(key, medicine);  // ⬅️ Updated in Hive
-        takenMedicines.add(key);  // ⬅️ Mark as taken
+      if (medicine != null) {
+        double dosage = session == "Morning"
+            ? medicine.morningDosage
+            : session == "Afternoon"
+                ? medicine.afternoonDosage
+                : medicine.nightDosage;
+
+        if (medicine.count >= dosage) {  // ✅ Ensure there is enough stock
+          medicineBox.put(
+            key,
+            MedicineData(
+              name: medicine.name,
+              count: medicine.count - dosage, // ✅ Reduce by exact dosage (no rounding)
+              morningDosage: medicine.morningDosage,
+              afternoonDosage: medicine.afternoonDosage,
+              nightDosage: medicine.nightDosage,
+              morning: medicine.morning,
+              afternoon: medicine.afternoon,
+              night: medicine.night,
+            ),
+          );
+
+          takenMedicines.add(key);
+        }
       }
     }
 
     // ✅ Save updated taken medicines
     takenMedicinesBox.put(session, takenMedicines.toList());
-   dateBox.put('lastDate', today.toIso8601String()); // ✅ Store last date in separate box
+    dateBox.put('lastDate', today.toIso8601String()); // ✅ Store last date
 
     selectedMedicines.clear();
 
@@ -211,5 +239,6 @@ void _takeMedicine() {
       );
     }
   });
-}  
+}
+
 }

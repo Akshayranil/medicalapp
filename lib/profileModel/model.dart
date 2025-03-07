@@ -34,31 +34,45 @@ class Profile {
   });
 }
 
-@HiveType(typeId: 2) // Use a new typeId if needed
+@HiveType(typeId: 2)
 class MedicineData {
   @HiveField(0)
   String name;
 
   @HiveField(1)
-  int count;
+  double count;  // Total medicine stock
 
   @HiveField(2)
-  bool morning;
+  double morningDosage;  // Dosage for morning
 
   @HiveField(3)
-  bool afternoon;
+  double afternoonDosage;  // Dosage for afternoon
 
   @HiveField(4)
+  double nightDosage;  // Dosage for night
+
+  @HiveField(5)
+  bool morning;
+
+  @HiveField(6)
+  bool afternoon;
+
+  @HiveField(7)
   bool night;
 
   MedicineData({
     required this.name,
     required this.count,
+    required this.morningDosage,
+    required this.afternoonDosage,
+    required this.nightDosage,
     required this.morning,
     required this.afternoon,
     required this.night,
   });
 }
+
+
 
 @HiveType(typeId: 3)
 class BloodGlucoseRecord {

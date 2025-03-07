@@ -8,7 +8,6 @@ import 'package:week7/functions/recordscreenfunctions/records_function.dart';
 import 'package:week7/profilemodel/model.dart';
 import 'package:week7/screens/recordscreen/add_record.dart';
 
-
 class MyRecords extends StatefulWidget {
   const MyRecords({super.key});
 
@@ -42,8 +41,7 @@ class _MyRecordsState extends State<MyRecords>
     return Scaffold(
       appBar: AppBar(
         title: Padding(
-          padding: EdgeInsets.only(left: 20),
-          child: Text('My Records')),
+            padding: EdgeInsets.only(left: 20), child: Text('My Records')),
         backgroundColor: Colors.blue,
         automaticallyImplyLeading: false,
         bottom: TabBar(
@@ -116,9 +114,14 @@ class _MyRecordsState extends State<MyRecords>
             trailing: IconButton(
               icon: Icon(Icons.delete, color: Colors.red),
               onPressed: () async {
-                final box = Hive.box<Records>('records');
-                await box.deleteAt(index);
-                _loadRecords();
+                showDeleteConfirmationDialog(context, record.recordName, () async{
+                    final box = Hive.box<Records>('records');
+  await box.deleteAt(index); // Delete from Hive
+  _loadRecords(); // Refresh UI
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(content: Text("Record deleted successfully!")),
+  );
+                });
               },
             ),
           ),
@@ -126,6 +129,4 @@ class _MyRecordsState extends State<MyRecords>
       },
     );
   }
-
-  
 }

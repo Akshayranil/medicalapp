@@ -11,7 +11,7 @@ class AddVitals extends StatefulWidget {
 }
 
 class _AddVitalsState extends State<AddVitals> {
-  String date = DateFormat('dd-MM-yyyy-').format(DateTime.now());
+  String date = DateFormat('dd-MM-yyyy').format(DateTime.now());
   String time = DateFormat('hh:mm a').format(DateTime.now());
   final TextEditingController bpController = TextEditingController();
   final TextEditingController pulseController = TextEditingController();
@@ -146,10 +146,18 @@ class _AddVitalsState extends State<AddVitals> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('Date'),
-            Card(child: Text(date)),
+            Text(date,style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+             Divider( 
+      color: Colors.grey,
+      thickness: 1, 
+    ),
             SizedBox(height: 20),
             Text('Time'),
-            Card(child: Text(time)),
+            Text(time,style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+             Divider( 
+      color: Colors.grey,
+      thickness: 1, 
+    ),
             SizedBox(height: 20),
             buildVitalInput(
                 "Blood Pressure (BP)", bpController, _isBpAdded, 'bp'),

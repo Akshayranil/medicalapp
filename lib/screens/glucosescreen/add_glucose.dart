@@ -21,7 +21,8 @@ class BloodGlucoseScreenState extends State<BloodGlucoseScreen> {
     // Automatically set the current date and time when the screen is loaded
     DateTime now = DateTime.now();
    _dateController.text = DateFormat('dd-MM-yyyy').format(now);
-    _timeController.text = DateFormat('HH:mm:ss').format(now);
+   _timeController.text = DateFormat('hh:mm a').format(now);
+
   }
   
 

@@ -76,3 +76,34 @@ Future<void> NavigateScreen(BuildContext context, int index) async {
             builder: (context) => ScreenHome(userName: userName!)));
   }
 }
+
+
+
+Future<void> showDeleteConfirmationDialog(
+    BuildContext context, String itemName, VoidCallback onDelete) {
+  return showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text("Confirm Deletion"),
+        content: Text("Are you sure you want to delete $itemName?"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the dialog
+            },
+            child: Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () {
+              onDelete(); // Perform delete action
+              Navigator.of(context).pop(); // Close the dialog
+            },
+            child: Text("Delete", style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      );
+    },
+  );
+}
+

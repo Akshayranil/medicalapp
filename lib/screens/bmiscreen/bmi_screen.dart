@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:week7/profilemodel/model.dart';
 
@@ -117,7 +118,8 @@ class _BMICalculatorState extends State<BMICalculator> {
         bmi: bmi,
         weight: weight,
         height: height,
-        bmidate: DateTime.now().toString());
+        bmidate: DateFormat('dd-MM-yyyy hh:mm a').format(DateTime.now())
+);
     await box.add(bmidata);
 
     ScaffoldMessenger.of(context).showSnackBar(

@@ -45,11 +45,11 @@ class HelpSupportScreen extends StatelessWidget {
             Text('Contact Us:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             ListTile(
               leading: Icon(Icons.email, color: Colors.blueAccent),
-              title: Text('support@medicalapp.com'),
+              title: Text('akshay08032002@gmail.com'),
             ),
             ListTile(
               leading: Icon(Icons.phone, color: Colors.blueAccent),
-              title: Text('+1 234 567 8900'),
+              title: Text('9746732747'),
             ),
           ],
         ),

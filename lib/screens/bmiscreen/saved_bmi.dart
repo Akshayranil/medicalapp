@@ -27,7 +27,7 @@ class SavedBMI extends StatelessWidget {
                         margin: EdgeInsets.all(10),
                         child: ListTile(
                           title: Text(
-                              "BMI : ${bmiResult!.bmi.toStringAsFixed(1)}"),
+                              "BMI : ${bmiResult!.bmi.toStringAsFixed(1)}",style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),),
                           subtitle: Text(
                               "Height: ${bmiResult.height.toInt()} cm, Weight: ${bmiResult.weight.toInt()} kg\nDate: ${bmiResult.bmidate}"),
                           trailing: IconButton(

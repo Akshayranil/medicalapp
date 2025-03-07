@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:week7/functions/general_functions.dart';
 import 'package:week7/profilemodel/model.dart';
 
 class GlucoseTrendScreen extends StatefulWidget {
@@ -26,42 +27,61 @@ class _GlucoseTrendScreenState extends State<GlucoseTrendScreen> {
   }
 
   // Delete a record from Hive
-  void _deleteRecord(int index) async {
-    await _box.deleteAt(index);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Record deleted successfully')),
-    );
-    _loadRecords(); // Refresh the list after deletion
-  }
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: _records.length,
-      itemBuilder: (context, index) {
-        final record = _records[index];
-        return Card(
-          margin: EdgeInsets.all(8),
-          elevation: 4,
-          child: ListTile(
-            
-            title: Text('Date: ${record.date}'),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text( 'Time: ${record.time}'),
-                Text('Glucose Level: ${record.glucoseLevel} mg/dL',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
-                Text('Food Intake: ${_getFoodIntakeStatus(record.foodIntakeStatus)}',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
-              ],
-            ),
-            trailing: IconButton(
-              icon: Icon(Icons.delete, color: Colors.red),
-              onPressed: () => _deleteRecord(index),
-            ),
-          ),
-        );
+    return _records.isEmpty
+        ? Center(
+            child: Text("No Glucose Found",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal,
+                )))
+        : ListView.builder(
+            itemCount: _records.length,
+            itemBuilder: (context, index) {
+              final record = _records[index];
+              return Card(
+                margin: EdgeInsets.all(8),
+                elevation: 4,
+                child: ListTile(
+                  title: Text('Date: ${record.date}'),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Time: ${record.time}'),
+                      Text(
+                        'Glucose Level: ${record.glucoseLevel} mg/dL',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 17),
+                      ),
+                      Text(
+                        'Food Intake: ${_getFoodIntakeStatus(record.foodIntakeStatus)}',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 17),
+                      ),
+                    ],
+                  ),
+                 trailing: IconButton(
+  icon: Icon(Icons.delete, color: Colors.red),
+  onPressed: () {
+    showDeleteConfirmationDialog(
+      context,
+      "Are you sure you want to delete this Glucose Level record?",
+      () {
+        setState(() {
+          _box.deleteAt(index); // Deletes from Hive
+          _records.removeAt(index); // Updates local list
+        });
       },
     );
+  },
+),
+
+                ),
+              );
+            },
+          );
   }
 
   String _getFoodIntakeStatus(int status) {

@@ -56,7 +56,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 "If you are facing issues, contact us at:"),
             SizedBox(height: 5),
             SelectableText(
-              "support@medicalapp.com",
+              "akshay08032002@gmail.com",
               style: TextStyle(fontSize: 16, color: Colors.blue),
             ),
           ],

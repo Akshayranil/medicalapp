@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:week7/functions/general_functions.dart';
 import 'package:week7/profilemodel/model.dart';
 
 class ViewTrends extends StatefulWidget {
@@ -95,19 +96,30 @@ class _ViewTrendsState extends State<ViewTrends>
         if (value == null || value.isEmpty) return SizedBox.shrink();
 
         return Card(
-            margin: EdgeInsets.all(10),
-            child: ListTile(
-              title: Text("$category:$value$unit"),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Date: ${vitals.vitaldate}",
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                  
-                ],
-              ),
-              trailing: IconButton(onPressed: ()=>_deleteVital(index,category), icon: Icon(Icons.delete)),
-            ));
+  margin: EdgeInsets.all(10),
+  child: ListTile(
+    title: Text("$category: $value$unit"),
+    subtitle: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("Date: ${vitals.vitaldate}", style: TextStyle(fontWeight: FontWeight.bold)),
+      ],
+    ),
+    trailing: IconButton(
+      onPressed: () {
+        showDeleteConfirmationDialog(
+          context,
+          "Are you sure you want to delete $category?",
+          () {
+            _deleteVital(index, category);
+          },
+        );
+      },
+      icon: Icon(Icons.delete, color: Colors.red),
+    ),
+  ),
+);
+
       },
     );
   }

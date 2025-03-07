@@ -46,7 +46,7 @@ class _MedicineState extends State<MedicineScreen> {
         ),
         body: TabBarView(children: [
           MedicineList(),
-          MedicineCount(newMedicine:newMedicine! ),
+          MedicineCount(),
         ]),
         floatingActionButton: FloatingActionButton(
           onPressed: () {

@@ -70,26 +70,35 @@ class MedicineDataAdapter extends TypeAdapter<MedicineData> {
     };
     return MedicineData(
       name: fields[0] as String,
-      count: fields[1] as int,
-      morning: fields[2] as bool,
-      afternoon: fields[3] as bool,
-      night: fields[4] as bool,
+      count: fields[1] as double,
+      morningDosage: fields[2] as double,
+      afternoonDosage: fields[3] as double,
+      nightDosage: fields[4] as double,
+      morning: fields[5] as bool,
+      afternoon: fields[6] as bool,
+      night: fields[7] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, MedicineData obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
       ..write(obj.count)
       ..writeByte(2)
-      ..write(obj.morning)
+      ..write(obj.morningDosage)
       ..writeByte(3)
-      ..write(obj.afternoon)
+      ..write(obj.afternoonDosage)
       ..writeByte(4)
+      ..write(obj.nightDosage)
+      ..writeByte(5)
+      ..write(obj.morning)
+      ..writeByte(6)
+      ..write(obj.afternoon)
+      ..writeByte(7)
       ..write(obj.night);
   }
 

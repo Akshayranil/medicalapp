@@ -55,8 +55,8 @@ class _ViewAppointmentsScreenState extends State<ViewAppointmentsScreen> {
                                 fontWeight: FontWeight.bold, fontSize: 18)),
                         SizedBox(height: 5),
                         Text(
-                          "Date: ${DateFormat('dd-MM-yyyy').format(appointment.appointmentDateTime)}",
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                        "Date & Time: ${DateFormat('dd-MM-yyyy hh:mm a').format(appointment.appointmentDateTime)}",
+                         style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Text("Clinic: ${appointment.clinicname}"),
                         Text("City: ${appointment.placename}"),
