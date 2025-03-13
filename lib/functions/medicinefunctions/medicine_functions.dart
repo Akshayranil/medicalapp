@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:week7/profilemodel/model.dart';
 
-
 void MedicineDialogue(BuildContext context) {
   TextEditingController medname = TextEditingController();
   TextEditingController totalCountController = TextEditingController();
@@ -32,12 +31,12 @@ void MedicineDialogue(BuildContext context) {
                   ),
                   TextField(
                     controller: totalCountController,
-                    decoration: InputDecoration(labelText: 'Total Medicine Count'),
+                    decoration:
+                        InputDecoration(labelText: 'Total Medicine Count'),
                     keyboardType: TextInputType.number,
                   ),
                   SizedBox(height: 15),
                   Text("Select Dosage for Each Time"),
-                  
                   CheckboxListTile(
                     title: Text("Morning"),
                     value: morning,
@@ -62,7 +61,6 @@ void MedicineDialogue(BuildContext context) {
                               ))
                           .toList(),
                     ),
-                  
                   CheckboxListTile(
                     title: Text("Afternoon"),
                     value: afternoon,
@@ -87,7 +85,6 @@ void MedicineDialogue(BuildContext context) {
                               ))
                           .toList(),
                     ),
-                  
                   CheckboxListTile(
                     title: Text("Night"),
                     value: night,
@@ -122,10 +119,42 @@ void MedicineDialogue(BuildContext context) {
               ),
               ElevatedButton(
                 onPressed: () {
-                  if (medname.text.isNotEmpty && totalCountController.text.isNotEmpty) {
+                  String medicineName = medname.text.trim();
+                  String totalCount = totalCountController.text.trim();
+
+                  if (medicineName.isEmpty || totalCount.isEmpty) {
+                    // Show error if input is empty
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content:
+                              Text('Please enter valid medicine details.')),
+                    );
+                    return;
+                  }
+
+                  var box = Hive.box<MedicineData>('medicineDataNewBox');
+
+                  // ✅ Check if medicine already exists (case insensitive)
+                  bool medicineExists = box.values.any(
+                    (medicine) =>
+                        medicine.name.toLowerCase() ==
+                        medicineName.toLowerCase(),
+                  );
+
+                  if (medicineExists) {
+                    Navigator.pop(context);
+                    // ❌ Medicine already exists, show error
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Medicine already exists!'),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  } else {
+                    // ✅ Medicine does not exist, add it
                     var newMedicine = MedicineData(
-                      name: medname.text,
-                      count: double.parse(totalCountController.text),
+                      name: medicineName,
+                      count: double.parse(totalCount),
                       morningDosage: morning ? morningDosage : 0.0,
                       afternoonDosage: afternoon ? afternoonDosage : 0.0,
                       nightDosage: night ? nightDosage : 0.0,
@@ -134,8 +163,14 @@ void MedicineDialogue(BuildContext context) {
                       night: night,
                     );
 
-                    var box = Hive.box<MedicineData>('medicineDataNewBox');
                     box.add(newMedicine);
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Medicine added successfully!'),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
 
                     Navigator.pop(context);
                   }
@@ -151,24 +186,24 @@ void MedicineDialogue(BuildContext context) {
   );
 }
 
-
-
-
-void updateMedicine(Box<MedicineData> newMedicine, int index, double newCount, 
-    {double? newMorningDosage, double? newAfternoonDosage, double? newNightDosage}) {
-  
+void updateMedicine(Box<MedicineData> newMedicine, int index, double newCount,
+    {double? newMorningDosage,
+    double? newAfternoonDosage,
+    double? newNightDosage}) {
   MedicineData? newMedical = newMedicine.getAt(index);
-  
+
   if (newMedical != null) {
     newMedicine.putAt(
       index,
       MedicineData(
-        name: newMedical.name, 
+        name: newMedical.name,
         count: newCount, // ✅ Update total count
-        morning: newMedical.morning, 
+        morning: newMedical.morning,
         afternoon: newMedical.afternoon,
         night: newMedical.night,
-        morningDosage: newMorningDosage ?? newMedical.morningDosage, // ✅ Update if provided, else keep old value
+        morningDosage: newMorningDosage ??
+            newMedical
+                .morningDosage, // ✅ Update if provided, else keep old value
         afternoonDosage: newAfternoonDosage ?? newMedical.afternoonDosage,
         nightDosage: newNightDosage ?? newMedical.nightDosage,
       ),
@@ -176,9 +211,8 @@ void updateMedicine(Box<MedicineData> newMedicine, int index, double newCount,
   }
 }
 
-
-
-void showDeleteMedicine(BuildContext context, Box<MedicineData> newMedicine, int index) {
+void showDeleteMedicine(
+    BuildContext context, Box<MedicineData> newMedicine, int index) {
   showDialog(
     context: context,
     builder: (context) {
@@ -204,10 +238,13 @@ void showDeleteMedicine(BuildContext context, Box<MedicineData> newMedicine, int
   );
 }
 
-void showEditMedicine(BuildContext context, Box<MedicineData> newMedicine, int index) {
+void showEditMedicine(
+    BuildContext context, Box<MedicineData> newMedicine, int index) {
   MedicineData medicinedata = newMedicine.getAt(index)!;
-  TextEditingController nameController = TextEditingController(text: medicinedata.name);
-  TextEditingController countController = TextEditingController(text: medicinedata.count.toString());
+  TextEditingController nameController =
+      TextEditingController(text: medicinedata.name);
+  TextEditingController countController =
+      TextEditingController(text: medicinedata.count.toString());
 
   double morningDosage = medicinedata.morningDosage;
   double afternoonDosage = medicinedata.afternoonDosage;
@@ -234,12 +271,12 @@ void showEditMedicine(BuildContext context, Box<MedicineData> newMedicine, int i
                   ),
                   TextField(
                     controller: countController,
-                    decoration: InputDecoration(labelText: "Total Medicine Count"),
+                    decoration:
+                        InputDecoration(labelText: "Total Medicine Count"),
                     keyboardType: TextInputType.number,
                   ),
                   SizedBox(height: 10),
                   Text("Select Dosage Per Intake"),
-                  
                   CheckboxListTile(
                     title: Text("Morning"),
                     value: morning,
@@ -264,7 +301,6 @@ void showEditMedicine(BuildContext context, Box<MedicineData> newMedicine, int i
                               ))
                           .toList(),
                     ),
-                  
                   CheckboxListTile(
                     title: Text("Afternoon"),
                     value: afternoon,
@@ -289,7 +325,6 @@ void showEditMedicine(BuildContext context, Box<MedicineData> newMedicine, int i
                               ))
                           .toList(),
                     ),
-
                   CheckboxListTile(
                     title: Text("Night"),
                     value: night,
@@ -325,7 +360,9 @@ void showEditMedicine(BuildContext context, Box<MedicineData> newMedicine, int i
               ElevatedButton(
                 onPressed: () {
                   String newName = nameController.text.trim();
-                  double newTotalCount = double.tryParse(countController.text.trim()) ?? medicinedata.count;
+                  double newTotalCount =
+                      double.tryParse(countController.text.trim()) ??
+                          medicinedata.count;
 
                   if (newName.isNotEmpty) {
                     newMedicine.putAt(
@@ -356,51 +393,46 @@ void showEditMedicine(BuildContext context, Box<MedicineData> newMedicine, int i
   );
 }
 
-
-
-
-// Widget buildLockedSection(String time) {
-//   return Center(
-//     child: Column(
-//       mainAxisAlignment: MainAxisAlignment.center,
-//       children: [
-//         Icon(Icons.lock, size: 50, color: Colors.grey),
-//         SizedBox(height: 10),
-//         Text(
-//           "This section is locked.",
-//           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.red),
-//         ),
-//         SizedBox(height: 5),
-//         Text(
-//           "You can access $time medicines only during its time.",
-//           textAlign: TextAlign.center,
-//           style: TextStyle(color: Colors.black54),
-//         ),
-//       ],
-//     ),
-//   );
-// }
-
 void showConfirmationDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Center(child: CircleAvatar(
-          radius: 20,
-          backgroundColor: Colors.green,
-          child: Icon(Icons.check,))),
-        content: Text("You have successfully taken all your medicines for this session."),
-        backgroundColor: Colors.lightGreenAccent,
-        actions: [
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.greenAccent),
-            onPressed: () => Navigator.pop(context),
-            child: Text("OK",textAlign: TextAlign.center),
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      backgroundColor: Colors.white,
+      title: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          CircleAvatar(
+            radius: 25,
+            backgroundColor: Colors.green,
+            child: Icon(Icons.check, color: Colors.white, size: 30),
+          ),
+          SizedBox(height: 10),
+          Text(
+            "Success!",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
         ],
       ),
-    );
-  }
-
-
-
+      content: Text(
+        "You have successfully taken all your medicines for this session.",
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 16),
+      ),
+      actions: [
+        Center(
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.greenAccent,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8)),
+            ),
+            onPressed: () => Navigator.pop(context),
+            child: Text("OK",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          ),
+        ),
+      ],
+    ),
+  );
+}

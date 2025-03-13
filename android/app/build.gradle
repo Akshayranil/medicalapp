@@ -6,9 +6,9 @@ plugins {
 }
 
 android {
-    compileSdkVersion 34
+    compileSdkVersion 35
     namespace = "com.example.week7"
-    compileSdk = 34
+    compileSdk = 35
 
     ndkVersion = flutter.ndkVersion
 
@@ -26,7 +26,7 @@ android {
     defaultConfig {
         applicationId = "com.example.week7"
         minSdkVersion 21
-        targetSdkVersion 34
+        targetSdkVersion 35
         versionCode = 1
         versionName = "1.0"
     }
@@ -34,6 +34,9 @@ android {
     buildTypes {
         release {
             signingConfig = signingConfigs.debug
+            minifyEnabled false  // Enables Proguard
+            shrinkResources false  // Removes unused resources to reduce APK size
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 }

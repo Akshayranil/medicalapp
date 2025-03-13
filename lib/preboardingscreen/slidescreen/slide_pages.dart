@@ -91,9 +91,9 @@ class SlideScreen3 extends StatelessWidget {
         SizedBox(
           height: 30,
         ),
-        Text('Your health is our priority,',
+        const Text('Your health is our priority,',
             style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic)),
-        Text(' we care about your life....',
+        const Text(' we care about your life....',
             style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic)),
         SizedBox(
           height: 60,
@@ -105,10 +105,10 @@ class SlideScreen3 extends StatelessWidget {
             },
             label: Text(
               'Get Started',
-              style: TextStyle(color: Colors.white, fontSize: 23),
+              style: TextStyle(color: Colors.white, fontSize: 18),
             ),
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.green,
+              backgroundColor: Colors.blue,
               minimumSize: Size(200, 60),
             )),
       ]),

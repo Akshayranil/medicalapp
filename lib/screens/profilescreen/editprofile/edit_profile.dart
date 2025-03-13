@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:hive/hive.dart';
 import 'package:week7/profilemodel/model.dart';
@@ -128,10 +129,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
                 const SizedBox(height: 20),
                 _buildTextField(_nameController, "Enter your name", Icons.person),
-                _buildTextField(_phoneController, "Enter your phone number", Icons.call, keyboardType: TextInputType.phone),
+                _buildTextField(_phoneController, "Enter your phone number", Icons.call, keyboardType: TextInputType.phone,inputFormatters: [
+                   LengthLimitingTextInputFormatter(10),  // Limits input to 10 digits
+                  FilteringTextInputFormatter.digitsOnly,
+                ]),
                 _buildTextField(_dobController, "Date of Birth", Icons.calendar_today, readOnly: true, onTap: _pickDate),
                 _buildGenderSelection(),
-                _buildTextField(_bloodGroupController, "Enter your blood group", Icons.water_drop),
+                _buildTextField(_bloodGroupController, "Enter your blood group", Icons.water_drop,inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'[ABOabo+-]')),
+                ]),
                 _buildTextField(_cityController, "Enter your city", Icons.location_city),
                 const SizedBox(height: 20),
                 ElevatedButton(
@@ -150,12 +156,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
-  Widget _buildTextField(TextEditingController controller, String labelText, IconData icon, {TextInputType keyboardType = TextInputType.text, bool readOnly = false, GestureTapCallback? onTap}) {
+  Widget _buildTextField(TextEditingController controller, String labelText, IconData icon, {TextInputType keyboardType = TextInputType.text, bool readOnly = false, GestureTapCallback? onTap,List<TextInputFormatter>? inputFormatters,}) {
     return Padding(
       padding: const EdgeInsets.all(15),
       child: TextFormField(
         controller: controller,
         keyboardType: keyboardType,
+         inputFormatters: inputFormatters ,
         readOnly: readOnly,
         onTap: onTap,
         cursorColor: Colors.black,

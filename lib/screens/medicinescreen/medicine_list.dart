@@ -107,9 +107,9 @@ class _MedicineListState extends State<MedicineList> with SingleTickerProviderSt
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.lightGreenAccent),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
             onPressed: selectedMedicines.isNotEmpty ? _takeMedicine : null,
-            child: Text("Take Medicine"),
+            child: Text("Take Medicine",style: TextStyle(color: Colors.white),),
           ),
         ),
       ],

@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:week7/functions/general_functions.dart';
 import 'package:week7/functions/profilescreenfunctions/profilescreen_function.dart';
+import 'package:week7/profilemodel/model.dart';
 import 'package:week7/screens/profilescreen/helpandsupport/help_support.dart';
 import 'package:week7/screens/profilescreen/settings/settings.dart';
 
@@ -33,6 +35,20 @@ class _ScreenProfileState extends State<ScreenProfile> {
     setState(() {});
   }
 
+   void updateUI() {
+    var box = Hive.box<Profile>('profileBox');
+    var updatedProfile = box.get('userProfile');
+
+    if (updatedProfile != null) {
+      setState(() {
+        widget.name = updatedProfile.name;
+        widget.bloodGroup = updatedProfile.bloodGroup;
+        widget.city = updatedProfile.city;
+        _loadProfileImage();  // Reload profile image if changed
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,6 +71,9 @@ class _ScreenProfileState extends State<ScreenProfile> {
                             backgroundColor: Colors.grey,
                             radius: 65,
                             backgroundImage: _profileImage != null ? FileImage(_profileImage!) : null,
+                            child: _profileImage == null
+                          ? const Icon(Icons.person, size: 95, color: Colors.black)
+                          : null, 
                           ),
                         ),
                         Positioned(
@@ -128,10 +147,7 @@ class _ScreenProfileState extends State<ScreenProfile> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     InkWell(
-                      onTap: () => navigateToEditProfile(context, () {
-                        _loadProfileImage();
-                        setState(() {});
-                      }),
+                      onTap: () => navigateToEditProfile(context, updateUI),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: const [

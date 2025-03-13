@@ -173,7 +173,7 @@ class _MyProfileState extends State<MyProfile> {
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(250, 50),
-                    backgroundColor: Colors.green,
+                    backgroundColor: Colors.blue,
                   ),
                   child: const Text('Submit', style: TextStyle(color: Colors.white)),
                 ),

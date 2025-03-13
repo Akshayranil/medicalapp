@@ -116,7 +116,8 @@ class _MyRecordsState extends State<MyRecords>
               onPressed: () async {
                 showDeleteConfirmationDialog(context, record.recordName, () async{
                     final box = Hive.box<Records>('records');
-  await box.deleteAt(index); // Delete from Hive
+  var recordKey = box.keys.toList()[allRecords.indexOf(record)];
+  await box.delete(recordKey); // Delete from Hive
   _loadRecords(); // Refresh UI
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(content: Text("Record deleted successfully!")),

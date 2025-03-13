@@ -51,8 +51,12 @@ Future<void> navigateToEditProfile(BuildContext context, Function updateUI) asyn
       ),
     );
 
-    if (updatedProfile != null) {
-      updateUI(); // Call the function to update UI with new profile data
+    if (updatedProfile != null && updatedProfile is Profile) {
+      // Update the stored profile in Hive
+      await box.put('userProfile', updatedProfile);
+
+      // Call the function to update UI with new profile data
+      updateUI();
     }
   }
 }

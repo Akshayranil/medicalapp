@@ -82,12 +82,34 @@ class _AddRecordScreenState extends State<AddRecordScreen> {
           content: Text("Please fill all the details mentioned above")));
       return;
     }
+    final box = Hive.box<Records>('records');
+  String enteredRecordName = _recordNameController.text.trim();
+  String enteredRecordType = _selectedRecordtype ?? '';
+
+  // ✅ Check if a record with the same name and type already exists
+  bool recordExists = box.values.any(
+    (record) =>
+        record.recordName.toLowerCase() == enteredRecordName.toLowerCase() &&
+        record.recordType.toLowerCase() == enteredRecordType.toLowerCase(),
+  );
+
+  if (recordExists) {
+    // ❌ Record already exists, show error message and return
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("A record with this name already exists under the selected type."),
+        backgroundColor: Colors.red,
+      ),
+    );
+    return;
+  }
+
     final record = Records(
         recordPath: _image!.path,
         recordDate: _todayDate,
         recordName: _recordNameController.text,
         recordType: _selectedRecordtype ?? '');
-    final box = Hive.box<Records>('records');
+    
     await box.add(record);
 
     ScaffoldMessenger.of(context)

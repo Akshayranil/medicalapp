@@ -7,6 +7,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:week7/preboardingscreen/splashscreen/splash_screen.dart';
 import 'package:week7/profilemodel/model.dart';
 
+
 import 'package:timezone/data/latest.dart' as tz;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,7 +36,7 @@ void main() async {
   await Hive.openBox<String>('settingsdateBox');
   // Initialize Awesome Notifications
   await AwesomeNotifications().initialize(
-  null,
+  'resource://drawable/ic_medical',
   [
     NotificationChannel(
       channelKey: 'appointment_channel',
@@ -50,7 +51,6 @@ void main() async {
       
     )
   ],
-  debug: true,
 );
 
    print("✅ Awesome Notifications Initialized");
@@ -59,6 +59,7 @@ void main() async {
   await requestPermissions();
   await AndroidAlarmManager.initialize(); // Initialize alarm manager
   // await requestAlarmPermission();
+  
   runApp(MyApp());
 }
 

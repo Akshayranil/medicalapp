@@ -57,7 +57,7 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/images/medical-removebg-preview.png'),
+            Image.asset('assets/images/medicallogo-removebg-preview.png'),
             Text(
               'V-Care',
               style: TextStyle(fontSize: 60, color: Colors.blueGrey),

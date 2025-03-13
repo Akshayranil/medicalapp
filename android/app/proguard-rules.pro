@@ -1,0 +1,13 @@
+-keep class me.carda.awesome_notifications.** { *; }
+-keep class androidx.work.** { *; }
+-keep class android.app.AlarmManager { *; }
+-keep class android.media.MediaPlayer { *; }
+-keep class android.content.SharedPreferences { *; }
+-keep class package.to.alarm_functions.** { *; }
+-keep class package.to.AppointmentData.** { *; }
+-keep class androidx.security.** { *; }
+-keep class android.content.Context { *; }
+-keep class week7.functions.appointmentfunction.alarm_functions { *; }
+-keep class week7.functions.appointmentfunction.** { *; }
+-keep class week7.functions.** { *; }
+-keep class android.app.SharedPreferencesImpl { *; }

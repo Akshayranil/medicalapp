@@ -4,6 +4,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:intl/intl.dart';
 import 'package:week7/functions/appointmentfunction/edit_appointment.dart';
+import 'package:week7/functions/general_functions.dart';
 import 'package:week7/main.dart';
 import 'package:week7/profilemodel/model.dart';
 // import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -55,8 +56,8 @@ class _ViewAppointmentsScreenState extends State<ViewAppointmentsScreen> {
                                 fontWeight: FontWeight.bold, fontSize: 18)),
                         SizedBox(height: 5),
                         Text(
-                        "Date & Time: ${DateFormat('dd-MM-yyyy hh:mm a').format(appointment.appointmentDateTime)}",
-                         style: TextStyle(fontWeight: FontWeight.bold),
+                          "Date & Time: ${DateFormat('dd-MM-yyyy hh:mm a').format(appointment.appointmentDateTime)}",
+                          style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Text("Clinic: ${appointment.clinicname}"),
                         Text("City: ${appointment.placename}"),
@@ -94,11 +95,17 @@ class _ViewAppointmentsScreenState extends State<ViewAppointmentsScreen> {
                       IconButton(
                         icon: Icon(Icons.delete, color: Colors.red),
                         onPressed: () {
-                          setState(() {
+                          showDeleteConfirmationDialog(
+                              context,
+                              "this appointment",
+                              () {
+                                   setState(() {
                             box.deleteAt(index);
                             AndroidAlarmManager.cancel(
                                 index); // Cancel alarm when deleted
                           });
+                              });
+                          
                         },
                       ),
                     ]),
